@@ -26,12 +26,7 @@ class AdminEditMainProductAction extends Controller
 
     public function __invoke(Request $request, int $id)
     {
-        $mainProduct = $this->mainProductRepository->find($id);
-        $mainProduct->setTitle($request->get('title'));
-        $mainProduct->setBrand($request->get('brand'));
-        $mainProduct->setDescription($request->get('description') ?? '');
-        $mainProduct->setPrice($request->get('price'));
-        $this->mainProductRepository->save($mainProduct);
+
         redirect(route('admin.edit.main.product.view'));
     }
 }

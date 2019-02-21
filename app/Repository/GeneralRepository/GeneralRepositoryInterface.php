@@ -11,19 +11,24 @@ namespace App\Repository\GeneralRepository;
 use App\Entity\GeneralMapper\GeneralMapper;
 use App\Entity\GeneralMapper\GeneralMapperInterface;
 use App\Entity\Product\Product;
+use Illuminate\Database\Eloquent\Model;
 
 interface GeneralRepositoryInterface
 {
 
     /**
-     * @param GeneralMapperInterface $object
-     * @return mixed
+     * @param int $id
+     * @return Model
      */
-    public function save(GeneralMapperInterface $object);
+    public function find(int $id);
 
     /**
-     * @param GeneralMapperInterface $object
-     * @return mixed
+     * @throws \Exception
      */
-    public function delete(GeneralMapperInterface $object);
+    public function delete(): void;
+
+    /**
+     * @return void
+     */
+    public function save(): void;
 }

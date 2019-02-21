@@ -15,9 +15,7 @@ class RepositoryProvier extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton(MainProductRepositoryInterface::class, function () {
-           return new MainProductRepository();
-        });
+        $this->app->singleton(MainProductRepositoryInterface::class, MainProductRepository::class);
     }
 
     /**

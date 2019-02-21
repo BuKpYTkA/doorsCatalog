@@ -8,28 +8,48 @@
 
 namespace App\Repository\GeneralRepository;
 
-
 use App\Entity\GeneralMapper\GeneralMapper;
 use App\Entity\GeneralMapper\GeneralMapperInterface;
+use Illuminate\Database\Eloquent\Model;
 
 abstract class GeneralRepository implements GeneralRepositoryInterface
 {
     /**
-     * @param GeneralMapperInterface $object
-     * @return void
+     * @var Model
      */
-    public function save(GeneralMapperInterface $object)
+    private $model;
+
+    /**
+     * GeneralRepository constructor.
+     * @param Model $model
+     */
+    public function __construct(Model $model)
     {
-        $object->save();
+        $this->model = $model;
     }
 
     /**
-     * @param GeneralMapperInterface $object
+     * @param int $id
+     * @return Model
+     */
+    public function find(int $id): Model
+    {
+        return $this->model->find($id);
+    }
+    /**
      * @return void
      */
-    public function delete(GeneralMapperInterface $object)
+    public function save(Model $model): void
     {
-        $object->delete();
+        $model->save();
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function delete(): void
+    {
+        $this->model->delete();
     }
 
 }

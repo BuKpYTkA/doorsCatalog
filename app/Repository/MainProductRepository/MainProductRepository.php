@@ -16,16 +16,17 @@ use App\Entity\MainProduct\MainProduct;
 use App\Entity\MainProduct\MainProductInterface;
 use App\Repository\ProductRepository\ProductRepository;
 use http\Exception;
+use Illuminate\Database\Eloquent\Model;
 
 class MainProductRepository extends ProductRepository implements MainProductRepositoryInterface
 {
     /**
-     * @param int $id
-     * @return MainProductInterface
+     * MainProductRepository constructor.
+     * @param MainProduct $mainProduct
      */
-    public function find(int $id)
+    public function __construct(MainProduct $mainProduct)
     {
-        return MainProduct::find($id);
+        parent::__construct($mainProduct);
     }
 
     /**

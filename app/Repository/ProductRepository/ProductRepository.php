@@ -12,7 +12,7 @@ namespace App\Repository\ProductRepository;
 use App\Entity\GeneralMapper\GeneralMapperInterface;
 use App\Repository\GeneralRepository\GeneralRepository;
 
-abstract class ProductRepository extends GeneralRepository implements ProductRepositoryInterface
+class ProductRepository extends GeneralRepository implements ProductRepositoryInterface
 {
 
 }

@@ -41,6 +41,14 @@ class RegisterController extends Controller
     }
 
     /**
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function showRegistrationForm()
+    {
+        return redirect('login');
+    }
+
+    /**
      * Get a validator for an incoming registration request.
      *
      * @param  array  $data
