@@ -31,4 +31,5 @@ abstract class GeneralRepository implements GeneralRepositoryInterface
     {
         $object->delete();
     }
+
 }

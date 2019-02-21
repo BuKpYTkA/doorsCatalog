@@ -15,6 +15,7 @@ use App\Entity\Image\Image;
 use App\Entity\MainProduct\MainProduct;
 use App\Entity\MainProduct\MainProductInterface;
 use App\Repository\ProductRepository\ProductRepository;
+use http\Exception;
 
 class MainProductRepository extends ProductRepository implements MainProductRepositoryInterface
 {
@@ -27,6 +28,31 @@ class MainProductRepository extends ProductRepository implements MainProductRepo
         return MainProduct::find($id);
     }
 
+    /**
+     * @param int $paginator|null
+     * @return MainProduct[]|\Illuminate\Database\Eloquent\Collection
+     */
+    public function findAll(int $paginator = null)
+    {
+        if ($paginator) {
+            return MainProduct::paginate($paginator);
+        }
+        return MainProduct::all();
+    }
+
+    /**
+     * @param $id
+     * @return MainProductInterface|404
+     */
+    public function findOrFail($id)
+    {
+        return MainProduct::findOrFail($id);
+    }
+
+    /**
+     * @param MainProductInterface $mainProduct
+     * @return Image[]
+     */
     public function findImages(MainProductInterface $mainProduct)
     {
         return $mainProduct->hasMany(Image::class)->get()->all();

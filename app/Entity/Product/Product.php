@@ -21,33 +21,35 @@ abstract class Product extends GeneralMapper implements ProductInterface
 {
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getTitle(): string
+    public function getTitle()
     {
         return $this->title;
     }
 
     /**
      * @param string $title
+     * @return void
      */
-    public function setTitle(string $title): void
+    public function setTitle(string $title)
     {
         $this->title = $title;
     }
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getPrice(): int
+    public function getPrice()
     {
         return $this->price;
     }
 
     /**
      * @param int $price
+     * @return void
      */
-    public function setPrice(int $price): void
+    public function setPrice(int $price)
     {
         $this->price = $price;
     }

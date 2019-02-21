@@ -14,11 +14,6 @@ use App\Entity\Product\Product;
 
 interface GeneralRepositoryInterface
 {
-    /**
-     * @param int $id
-     * @return mixed
-     */
-    public function find(int $id);
 
     /**
      * @param GeneralMapperInterface $object

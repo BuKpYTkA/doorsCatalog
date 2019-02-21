@@ -21,10 +21,10 @@ class MainProductFactory extends ProductFactory implements MainProductFactoryInt
     public function create(array $fields)
     {
         return new MainProduct([
-            'title' => $fields['title'],
-            'price' => $fields['price'],
-            'brand' => $fields['brand'],
-            'description' => $fields['description']
+            'title' => $fields['title'] ?? null,
+            'price' => $fields['price'] ?? null,
+            'brand' => $fields['brand'] ?? null,
+            'description' => $fields['description'] ?? null
         ]);
     }
 

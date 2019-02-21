@@ -11,6 +11,7 @@
 |
 */
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::get('lol', 'SiteController@getDescription')->name('userSearchForm');
@@ -19,6 +20,15 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
+Route::middleware(['auth'])->group(function () {
+    Route::prefix('admin-panel')->group(function () {
+        Route::prefix('main_products')->group(function () {
+            Route::get('/', 'Admin\Views\AdminMainProductsView')->name('admin.show.main.products');
+            Route::get('edit/{id}', 'Admin\EditMainProduct\view\AdminEditMainProductView')->name('admin.edit.main.product.view');
+            Route::post('edit/{id}', 'Admin\EditMainProduct\view\AdminEditMainProductAction')->name('admin.edit.main.product.action');
+        });
+    });
+});
 
 Route::get('/home', 'HomeController@index')->name('home');
+Auth::routes();

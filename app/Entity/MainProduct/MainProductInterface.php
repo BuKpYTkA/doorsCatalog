@@ -13,10 +13,6 @@ use App\Entity\Product\ProductInterface;
 
 interface MainProductInterface extends ProductInterface
 {
-    /**
-     * @return ImageInterface[]
-     */
-    public function getImages();
 
     /**
      * @return string

@@ -15,6 +15,7 @@ use App\Repository\GeneralRepository\GeneralRepository;
 
 class ImageRepository extends GeneralRepository implements ImageRepositoryInterface
 {
+
     /**
      * @param int $id
      * @return ImageInterface

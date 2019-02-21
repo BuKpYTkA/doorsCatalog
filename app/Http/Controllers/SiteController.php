@@ -35,11 +35,9 @@ class SiteController extends Controller
 
     public function getDescription()
     {
-        $product = $this->mainProductRepository->find(9);
-        $images = $this->mainProductRepository->findImages($product);
-        dd($images);
-        return view('lol', [
-            'description' => $product->getTitle(),
-        ]);
+        $product = $this->mainProductRepository->find(1);
+        $product->setBrand('GUCCI');
+        dd($product);
+        return view();
     }
 }

@@ -20,7 +20,6 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $brand
  * @property string $description
  * @property string $type
- * @property ImageInterface[]
  *
  */
 class MainProduct extends Product implements MainProductInterface
@@ -35,64 +34,38 @@ class MainProduct extends Product implements MainProductInterface
         'description',
     ];
 
-//    /**
-//     * MainProduct constructor.
-//     * @param string $title
-//     * @param int $price
-//     * @param string $brand
-//     * @param string $description
-//     */
-//    public function __construct(
-//        string $title = null,
-//        int $price = null,
-//        string $brand = null,
-//        string $description = null)
-//    {
-//        $this->title = $title;
-//        $this->price = $price;
-//        $this->brand = $brand;
-//        $this->description = $description;
-//    }
-
-
     /**
-     * @return string
+     * @return string|null
      */
-    public function getBrand(): string
+    public function getBrand()
     {
         return $this->brand;
     }
 
     /**
      * @param string $brand
+     * @return void
      */
-    public function setBrand(string $brand): void
+    public function setBrand(string $brand)
     {
         $this->brand = $brand;
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getDescription(): string
+    public function getDescription()
     {
         return $this->description;
     }
 
     /**
      * @param string $description
+     * @return void
      */
-    public function setDescription(string $description): void
+    public function setDescription(string $description)
     {
         $this->description = $description;
-    }
-
-    /**
-     * @return ImageInterface[]|\Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function getImages()
-    {
-
     }
 
 }
