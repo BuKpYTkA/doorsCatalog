@@ -12,15 +12,18 @@ namespace App\Repository\AdditionalProductRepository;
 use App\Entity\AdditionalProduct\AdditionalProduct;
 use App\Entity\AdditionalProduct\AdditionalProductInterface;
 use App\Repository\ProductRepository\ProductRepository;
+use Illuminate\Database\Eloquent\Model;
 
 class AdditionalProductRepository extends ProductRepository implements AdditionalProductRepositoryInterface
 {
+
     /**
-     * @param int $id
-     * @return AdditionalProductInterface
+     * AdditionalProductRepository constructor.
+     * @param AdditionalProduct $additionalProduct
      */
-    public function find(int $id)
+    public function __construct(AdditionalProduct $additionalProduct)
     {
-        return AdditionalProduct::find($id);
+        parent::__construct($additionalProduct);
     }
+
 }

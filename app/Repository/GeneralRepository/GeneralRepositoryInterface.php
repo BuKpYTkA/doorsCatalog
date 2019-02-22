@@ -8,14 +8,10 @@
 
 namespace App\Repository\GeneralRepository;
 
-use App\Entity\GeneralMapper\GeneralMapper;
-use App\Entity\GeneralMapper\GeneralMapperInterface;
-use App\Entity\Product\Product;
 use Illuminate\Database\Eloquent\Model;
 
 interface GeneralRepositoryInterface
 {
-
     /**
      * @param int $id
      * @return Model
@@ -23,12 +19,27 @@ interface GeneralRepositoryInterface
     public function find(int $id);
 
     /**
-     * @throws \Exception
-     */
-    public function delete(): void;
-
-    /**
+     * @param Model $model
      * @return void
      */
-    public function save(): void;
+    public function save(Model $model);
+
+    /**
+     * @param Model $model
+     */
+    public function delete(Model $model);
+
+    /**
+     * @param int $paginator |null
+     * @return \Illuminate\Database\Eloquent\Collection|Model[]
+     */
+    public function findAll(int $paginator = null);
+
+    /**
+     * @param $id
+     * @return  Model|404
+     */
+    public function findOrFail($id);
+
 }
+

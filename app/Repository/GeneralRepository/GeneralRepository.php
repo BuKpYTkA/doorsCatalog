@@ -8,8 +8,6 @@
 
 namespace App\Repository\GeneralRepository;
 
-use App\Entity\GeneralMapper\GeneralMapper;
-use App\Entity\GeneralMapper\GeneralMapperInterface;
 use Illuminate\Database\Eloquent\Model;
 
 abstract class GeneralRepository implements GeneralRepositoryInterface
@@ -32,24 +30,49 @@ abstract class GeneralRepository implements GeneralRepositoryInterface
      * @param int $id
      * @return Model
      */
-    public function find(int $id): Model
+    public function find(int $id)
     {
         return $this->model->find($id);
     }
+
     /**
+     * @param int $paginator |null
+     * @return \Illuminate\Database\Eloquent\Collection|Model[]
+     */
+    public function findAll(int $paginator = null)
+    {
+        if ($paginator) {
+            return $this->model->paginate($paginator);
+        }
+        return $this->model->all();
+    }
+
+    /**
+     * @param $id
+     * @return  Model|404
+     */
+    public function findOrFail($id)
+    {
+        return $this->model->findOrFail($id);
+    }
+
+    /**
+     * @param Model $model
      * @return void
      */
-    public function save(Model $model): void
+    public function save(Model $model)
     {
         $model->save();
     }
 
     /**
+     * @param Model $model
+     * @return void
      * @throws \Exception
      */
-    public function delete(): void
+    public function delete(Model $model)
     {
-        $this->model->delete();
+        $model->delete();
     }
 
 }

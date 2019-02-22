@@ -16,14 +16,19 @@ use App\Factory\ProductFactory\ProductFactory;
 class AdditionalProductFactory extends ProductFactory implements AdditionalProductFactoryInterface
 {
     /**
-     * @param array $fields
+     * @param string|null $title
+     * @param int|null $price
+     * @param string|null $type
+     * @param bool|null $isActive
      * @return AdditionalProduct|ProductInterface
      */
-    public function create(array $fields)
+    public function create(string $title = null, int $price = null, string $type = null, bool $isActive = null)
     {
         return new AdditionalProduct([
-            'title' => $fields['title'],
-            'price' => $fields['price'],
+            'title' => $title,
+            'price' => $price,
+            'type' => $type,
+            'is_active' => $isActive
         ]);
     }
 

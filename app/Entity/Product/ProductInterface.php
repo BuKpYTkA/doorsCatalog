@@ -8,9 +8,7 @@
 
 namespace App\Entity\Product;
 
-use App\Entity\GeneralMapper\GeneralMapperInterface;
-
-interface ProductInterface extends GeneralMapperInterface
+interface ProductInterface
 {
 
     /**
@@ -34,4 +32,24 @@ interface ProductInterface extends GeneralMapperInterface
      * @return mixed
      */
     public function setPrice(int $price);
+
+    /**
+     * @return bool
+     */
+    public function isActive();
+
+    /**
+     * @param bool $isActive
+     */
+    public function setIsActive(bool $isActive);
+
+    /**
+     * @return string
+     */
+    public function getType();
+
+    /**
+     * @param string $type
+     */
+    public function setType(string $type);
 }

@@ -22,9 +22,18 @@ Route::get('/', function () {
 
 Route::middleware(['auth'])->group(function () {
     Route::prefix('admin-panel')->group(function () {
+        Route::get('', 'Admin\AdminController')->name('admin');
         Route::prefix('main_products')->group(function () {
-            Route::get('/', 'Admin\Views\AdminMainProductsView')->name('admin.show.main.products');
-            Route::match(['get', 'post'],'edit/{id}', 'Admin\EditMainProduct\view\AdminEditMainProductView')->name('admin.edit.main.product.view');
+            Route::get('/', 'Admin\MainProduct\MainProducts')->name('admin.show.main.products');
+            Route::get('delete/{id}', 'Admin\MainProduct\Delete\DeleteMainProduct')->name('admin.delete.main.product');
+            Route::match(['get', 'post'],'create', 'Admin\MainProduct\Create\CreateMainProduct')->name('admin.create.main.product');
+            Route::match(['get', 'post'],'edit/{id}', 'Admin\MainProduct\Edit\EditMainProduct')->name('admin.edit.main.product');
+        });
+        Route::prefix('additional_products')->group(function () {
+            Route::get('/', 'Admin\AdditionalProduct\AdditionalProducts')->name('admin.show.additional.products');
+            Route::get('delete/{id}', 'Admin\AdditionalProduct\Delete\DeleteAdditionalProduct')->name('admin.delete.additional.product');
+            Route::match(['get', 'post'],'create', 'Admin\AdditionalProduct\Create\CreateAdditionalProduct')->name('admin.create.additional.product');
+            Route::match(['get', 'post'],'edit/{id}', 'Admin\AdditionalProduct\Edit\EditAdditionalProduct')->name('admin.edit.additional.product');
         });
     });
 });

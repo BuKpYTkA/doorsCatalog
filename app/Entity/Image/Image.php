@@ -8,37 +8,31 @@
 
 namespace App\Entity\Image;
 
-
-use App\Entity\GeneralMapper\GeneralMapper;
 use App\Entity\MainProduct\MainProduct;
-use App\Entity\MainProduct\MainProductInterface;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Image
  * @package App\Entity\Image
+ * @property int $id
  * @property int $main_product_id
  * @property string $url
  */
-class Image extends GeneralMapper implements ImageInterface
+class Image extends Model implements ImageInterface
 {
 
     protected $fillable = [
-        'mainProduct_id',
+        'main_product_id',
         'url'
     ];
-//    /**
-//     * Image constructor.
-//     * @param int $main_product_id
-//     * @param string $url
-//     */
-//    public function __construct(
-//        int $main_product_id = null,
-//        string $url = null)
-//    {
-//        $this->main_product_id = $main_product_id;
-//        $this->url = $url;
-//    }
 
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Relations\BelongsTo|object
@@ -51,7 +45,7 @@ class Image extends GeneralMapper implements ImageInterface
     /**
      * @param int $mainProductId
      */
-    public function setMainProductId(int $mainProductId): void
+    public function setMainProductId(int $mainProductId)
     {
         $this->main_product_id = $mainProductId;
     }
@@ -59,15 +53,23 @@ class Image extends GeneralMapper implements ImageInterface
     /**
      * @return string
      */
-    public function getUrl(): string
+    public function getUrl()
     {
         return $this->url;
     }
 
     /**
+     * @return string
+     */
+    public function getGoogleUrl()
+    {
+        return str_replace('open', 'uc', $this->url);
+    }
+
+    /**
      * @param string $url
      */
-    public function setUrl(string $url): void
+    public function setUrl(string $url)
     {
         $this->url = $url;
     }

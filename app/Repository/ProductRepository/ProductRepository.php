@@ -8,8 +8,6 @@
 
 namespace App\Repository\ProductRepository;
 
-
-use App\Entity\GeneralMapper\GeneralMapperInterface;
 use App\Repository\GeneralRepository\GeneralRepository;
 
 class ProductRepository extends GeneralRepository implements ProductRepositoryInterface

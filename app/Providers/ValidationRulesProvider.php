@@ -2,11 +2,11 @@
 
 namespace App\Providers;
 
-use App\Repository\MainProductRepository\MainProductRepository;
-use App\Repository\MainProductRepository\MainProductRepositoryInterface;
+use App\Services\ValidationRules\ValidationRulesService;
+use App\Services\ValidationRules\ValidationRulesServiceInterface;
 use Illuminate\Support\ServiceProvider;
 
-class RepositoryProvier extends ServiceProvider
+class ValidationRulesProvider extends ServiceProvider
 {
     /**
      * Register services.
@@ -15,7 +15,7 @@ class RepositoryProvier extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton(MainProductRepositoryInterface::class, MainProductRepository::class);
+        $this->app->singleton(ValidationRulesServiceInterface::class, ValidationRulesService::class);
     }
 
     /**

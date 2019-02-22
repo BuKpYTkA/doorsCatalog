@@ -8,21 +8,18 @@
 
 namespace App\Repository\ImageRepository;
 
-
 use App\Entity\Image\Image;
-use App\Entity\Image\ImageInterface;
 use App\Repository\GeneralRepository\GeneralRepository;
 
 class ImageRepository extends GeneralRepository implements ImageRepositoryInterface
 {
 
     /**
-     * @param int $id
-     * @return ImageInterface
+     * ImageRepository constructor.
+     * @param Image $image
      */
-    public function find(int $id)
+    public function __construct(Image $image)
     {
-        return Image::find($id);
+        parent::__construct($image);
     }
-
 }

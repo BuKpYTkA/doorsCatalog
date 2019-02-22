@@ -8,15 +8,11 @@
 
 namespace App\Repository\MainProductRepository;
 
-
-use App\Entity\GeneralMapper\GeneralMapper;
-use App\Entity\GeneralMapper\GeneralMapperInterface;
 use App\Entity\Image\Image;
+use App\Entity\Image\ImageInterface;
 use App\Entity\MainProduct\MainProduct;
 use App\Entity\MainProduct\MainProductInterface;
 use App\Repository\ProductRepository\ProductRepository;
-use http\Exception;
-use Illuminate\Database\Eloquent\Model;
 
 class MainProductRepository extends ProductRepository implements MainProductRepositoryInterface
 {
@@ -30,29 +26,8 @@ class MainProductRepository extends ProductRepository implements MainProductRepo
     }
 
     /**
-     * @param int $paginator|null
-     * @return MainProduct[]|\Illuminate\Database\Eloquent\Collection
-     */
-    public function findAll(int $paginator = null)
-    {
-        if ($paginator) {
-            return MainProduct::paginate($paginator);
-        }
-        return MainProduct::all();
-    }
-
-    /**
-     * @param $id
-     * @return MainProductInterface|404
-     */
-    public function findOrFail($id)
-    {
-        return MainProduct::findOrFail($id);
-    }
-
-    /**
      * @param MainProductInterface $mainProduct
-     * @return Image[]
+     * @return ImageInterface[]
      */
     public function findImages(MainProductInterface $mainProduct)
     {

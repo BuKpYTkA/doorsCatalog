@@ -8,15 +8,13 @@
 
 namespace App\Factory\ProductFactory;
 
-
-use App\Entity\Product\ProductInterface;
+use Illuminate\Database\Eloquent\Model;
 
 interface ProductFactoryInterface
 {
     /**
-     * @param array $fields
-     * @return ProductInterface
+     * @return Model
      */
-    public function create(array $fields);
+    public function create();
 
 }

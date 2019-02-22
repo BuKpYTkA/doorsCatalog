@@ -8,11 +8,9 @@
 
 namespace App\Entity\Image;
 
-
-use App\Entity\GeneralMapper\GeneralMapperInterface;
 use App\Entity\MainProduct\MainProductInterface;
 
-interface ImageInterface extends GeneralMapperInterface
+interface ImageInterface
 {
     /**
      * @return MainProductInterface
@@ -35,4 +33,14 @@ interface ImageInterface extends GeneralMapperInterface
      * @return mixed
      */
     public function setUrl(string $url);
+
+    /**
+     * @return string
+     */
+    public function getGoogleUrl();
+
+    /**
+     * @return int
+     */
+    public function getId();
 }

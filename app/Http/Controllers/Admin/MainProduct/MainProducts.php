@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Views;
+namespace App\Http\Controllers\Admin\MainProduct;
 
+use App\Entity\Image\Image;
 use App\Repository\MainProductRepository\MainProductRepositoryInterface;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class AdminMainProductsView extends Controller
+class MainProducts extends Controller
 {
 
     /**
@@ -32,7 +33,11 @@ class AdminMainProductsView extends Controller
      */
     public function __invoke(Request $request)
     {
-        $products = $this->mainProductRepository->findAll(5);
+        $pag = 5;
+        if ($request->cookie('pag')) {
+            $pag = $request->cookie('pag');
+        }
+        $products = $this->mainProductRepository->findAll($pag);
         return view('admin.mainProduct.index', ['products' => $products]);
     }
 }

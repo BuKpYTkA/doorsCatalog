@@ -8,11 +8,7 @@
 
 namespace App\Entity\MainProduct;
 
-
-use App\Entity\Image\Image;
-use App\Entity\Image\ImageInterface;
 use App\Entity\Product\Product;
-use Illuminate\Database\Eloquent\Model;
 
 /**
  * class Handle
@@ -20,7 +16,6 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $brand
  * @property string $description
  * @property string $type
- *
  */
 class MainProduct extends Product implements MainProductInterface
 {
@@ -32,6 +27,8 @@ class MainProduct extends Product implements MainProductInterface
         'price',
         'brand',
         'description',
+        'is_active',
+        'type',
     ];
 
     /**

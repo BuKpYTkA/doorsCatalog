@@ -8,17 +8,27 @@
 
 namespace App\Entity\Product;
 
-
-use App\Entity\GeneralMapper\GeneralMapper;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Product
  * @package App\Entity\Product
+ * @property int $id
  * @property string $title
  * @property int $price
+ * @property string $type
+ * @property boolean $is_active
  */
-abstract class Product extends GeneralMapper implements ProductInterface
+abstract class Product extends Model implements ProductInterface
 {
+
+    /**
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->id;
+    }
 
     /**
      * @return string|null
@@ -52,6 +62,38 @@ abstract class Product extends GeneralMapper implements ProductInterface
     public function setPrice(int $price)
     {
         $this->price = $price;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isActive()
+    {
+        return $this->is_active;
+    }
+
+    /**
+     * @param bool $isActive
+     */
+    public function setIsActive(bool $isActive)
+    {
+        $this->is_active = $isActive;
+    }
+
+    /**
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * @param string $type
+     */
+    public function setType(string $type)
+    {
+        $this->type = $type;
     }
 
 }

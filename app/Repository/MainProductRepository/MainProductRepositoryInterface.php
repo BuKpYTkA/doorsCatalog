@@ -8,11 +8,10 @@
 
 namespace App\Repository\MainProductRepository;
 
-
+use App\Entity\Image\ImageInterface;
 use App\Entity\MainProduct\MainProduct;
 use App\Entity\MainProduct\MainProductInterface;
 use App\Repository\ProductRepository\ProductRepositoryInterface;
-use Illuminate\Database\Eloquent\Model;
 
 interface MainProductRepositoryInterface extends ProductRepositoryInterface
 {
@@ -25,19 +24,8 @@ interface MainProductRepositoryInterface extends ProductRepositoryInterface
 
     /**
      * @param MainProductInterface $mainProduct
-     * @return mixed
+     * @return ImageInterface[]
      */
     public function findImages(MainProductInterface $mainProduct);
 
-    /**
-     * @param int $paginator|null
-     * @return MainProduct[]|\Illuminate\Database\Eloquent\Collection
-     */
-    public function findAll(int $paginator = null);
-
-    /**
-     * @param $id
-     * @return MainProductInterface|404
-     */
-    public function findOrFail($id);
 }

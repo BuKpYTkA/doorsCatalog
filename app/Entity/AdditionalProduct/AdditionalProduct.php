@@ -8,7 +8,6 @@
 
 namespace App\Entity\AdditionalProduct;
 
-
 use App\Entity\Product\Product;
 
 class AdditionalProduct extends Product implements AdditionalProductInterface
@@ -17,6 +16,8 @@ class AdditionalProduct extends Product implements AdditionalProductInterface
     protected $fillable = [
         'title',
         'price',
+        'is_active',
+        'type',
         ];
 
 //    /**
