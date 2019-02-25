@@ -8,10 +8,17 @@
 
 namespace App\Repository\AdditionalProductRepository;
 
-
+use App\Entity\AdditionalProduct\AdditionalProductInterface;
+use App\Entity\ProductTypes\AdditionalProductType;
 use App\Repository\ProductRepository\ProductRepositoryInterface;
 
 interface AdditionalProductRepositoryInterface extends ProductRepositoryInterface
 {
+
+    /**
+     * @param AdditionalProductInterface $additionalProduct
+     * @return AdditionalProductType
+     */
+    public function findType(AdditionalProductInterface $additionalProduct);
 
 }

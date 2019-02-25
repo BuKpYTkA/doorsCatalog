@@ -8,7 +8,6 @@
 
 namespace App\Factory\ProductFactory;
 
-
 abstract class ProductFactory implements ProductFactoryInterface
 {
 

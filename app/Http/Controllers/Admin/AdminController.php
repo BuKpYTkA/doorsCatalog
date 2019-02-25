@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 
 class AdminController extends Controller
 {
+
     /**
      * Handle the incoming request.
      *
@@ -17,4 +18,5 @@ class AdminController extends Controller
     {
         return view('admin.index');
     }
+
 }

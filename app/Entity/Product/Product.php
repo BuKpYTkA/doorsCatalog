@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $id
  * @property string $title
  * @property int $price
- * @property string $type
+ * @property int $type_id
  * @property boolean $is_active
  */
 abstract class Product extends Model implements ProductInterface
@@ -81,19 +81,19 @@ abstract class Product extends Model implements ProductInterface
     }
 
     /**
-     * @return string
+     * @return int
      */
-    public function getType()
+    public function getTypeId()
     {
-        return $this->type;
+        return $this->type_id;
     }
 
     /**
-     * @param string $type
+     * @param int $type_id
      */
-    public function setType(string $type)
+    public function setTypeId(int $type_id)
     {
-        $this->type = $type;
+        $this->type_id = $type_id;
     }
 
 }

@@ -8,7 +8,6 @@
 
 namespace App\Services\ValidationRules;
 
-
 class ValidationRulesService implements ValidationRulesServiceInterface
 {
 
@@ -20,7 +19,7 @@ class ValidationRulesService implements ValidationRulesServiceInterface
         return [
             'title' => 'string|min:3|max:200|required',
             'price' => 'numeric|required',
-            'brand' => 'string|min:1|max:50',
+            'brand' => 'required',
             'type' => 'required',
         ];
     }
@@ -34,6 +33,19 @@ class ValidationRulesService implements ValidationRulesServiceInterface
             'title' => 'string|min:3|max:200|required',
             'price' => 'numeric|required',
             'type' => 'required',
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function getFeedBackRules()
+    {
+        return [
+            'name' => 'string',
+            'email' => 'email',
+            'phone' => 'string|required',
+            'commentary' => 'string',
         ];
     }
 

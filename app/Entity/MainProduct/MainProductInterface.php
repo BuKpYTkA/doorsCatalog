@@ -8,7 +8,6 @@
 
 namespace App\Entity\MainProduct;
 
-use App\Entity\Image\ImageInterface;
 use App\Entity\Product\ProductInterface;
 
 interface MainProductInterface extends ProductInterface
@@ -20,9 +19,9 @@ interface MainProductInterface extends ProductInterface
     public function getDescription();
 
     /**
-     * @return string
+     * @return int
      */
-    public function getBrand();
+    public function getBrandId();
 
 
     /**
@@ -32,9 +31,9 @@ interface MainProductInterface extends ProductInterface
     public function setDescription(string $description);
 
     /**
-     * @param string $brand
+     * @param int $brand
      * @return void
      */
-    public function setBrand(string $brand);
+    public function setBrandId(int $brand);
 
 }

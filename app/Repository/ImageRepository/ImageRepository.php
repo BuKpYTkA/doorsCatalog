@@ -22,4 +22,5 @@ class ImageRepository extends GeneralRepository implements ImageRepositoryInterf
     {
         parent::__construct($image);
     }
+
 }

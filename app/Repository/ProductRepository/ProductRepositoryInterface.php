@@ -8,12 +8,16 @@
 
 namespace App\Repository\ProductRepository;
 
-
-use App\Entity\Product\Product;
 use App\Entity\Product\ProductInterface;
 use App\Repository\GeneralRepository\GeneralRepositoryInterface;
 
 interface ProductRepositoryInterface extends GeneralRepositoryInterface
 {
+
+    /**
+     * @param int|null $paginator
+     * @return ProductInterface[]
+     */
+    public function findActive(int $paginator = null);
 
 }

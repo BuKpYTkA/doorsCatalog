@@ -17,11 +17,12 @@ interface MainProductFactoryInterface extends ProductFactoryInterface
     /**
      * @param string|null $title
      * @param int|null $price
-     * @param string|null $brand
+     * @param int|null $brandId
      * @param string|null $description
-     * @param string|null $type
+     * @param int $type
      * @param bool|null $isActive
      * @return MainProductInterface
      */
-    public function create(string $title = null, int $price = null, string $brand = null, string $description = null, string $type = null, bool $isActive = null);
+    public function create(string $title = null, int $price = null, int $brandId = null, string $description = null, int $type = null, bool $isActive = null);
+
 }

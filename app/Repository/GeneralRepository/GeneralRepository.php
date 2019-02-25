@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 
 abstract class GeneralRepository implements GeneralRepositoryInterface
 {
+
     /**
      * @var Model
      */

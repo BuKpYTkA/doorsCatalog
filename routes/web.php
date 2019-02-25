@@ -11,14 +11,12 @@
 |
 */
 
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Route;
-
-Route::get('lol', 'SiteController@getDescription')->name('userSearchForm');
 
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get(md5('set_pagination_cookie').'/{val}', 'Admin\Cookie\PaginationController')->name('set.pag');
 
 Route::middleware(['auth'])->group(function () {
     Route::prefix('admin-panel')->group(function () {

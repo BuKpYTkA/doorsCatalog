@@ -8,7 +8,6 @@
 
 namespace App\Factory\ImageFactory;
 
-
 use App\Entity\Image\Image;
 
 class ImageFactory implements ImageFactoryInterface
@@ -26,4 +25,5 @@ class ImageFactory implements ImageFactoryInterface
             'url' => $url
         ]);
     }
+
 }

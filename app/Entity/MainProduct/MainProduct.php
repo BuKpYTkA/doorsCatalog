@@ -13,39 +13,39 @@ use App\Entity\Product\Product;
 /**
  * class Handle
  * @package App
- * @property string $brand
+ * @property int $brand_id
  * @property string $description
- * @property string $type
  */
 class MainProduct extends Product implements MainProductInterface
 {
+
     /**
      * @var array
      */
     protected $fillable = [
         'title',
         'price',
-        'brand',
+        'brand_id',
         'description',
         'is_active',
-        'type',
+        'type_id',
     ];
 
     /**
-     * @return string|null
+     * @return int|null
      */
-    public function getBrand()
+    public function getBrandId()
     {
-        return $this->brand;
+        return $this->brand_id;
     }
 
     /**
-     * @param string $brand
+     * @param int $brand
      * @return void
      */
-    public function setBrand(string $brand)
+    public function setBrandId(int $brand)
     {
-        $this->brand = $brand;
+        $this->brand_id = $brand;
     }
 
     /**

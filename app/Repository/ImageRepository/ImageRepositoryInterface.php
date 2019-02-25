@@ -19,4 +19,5 @@ interface ImageRepositoryInterface extends GeneralRepositoryInterface
      * @return Image
      */
     public function find(int $id);
+
 }

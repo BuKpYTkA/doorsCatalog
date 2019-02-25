@@ -4,13 +4,18 @@
     <form action="{{ route('admin.create.main.product') }}" method="POST" id="form">
         @csrf
         title:<input type="text" name="title" value="">
-        brand:<input type="text" name="brand" value="">
+        <select name="brand" id="">
+            <option disabled selected value>Выберите бренд</option>
+        @foreach($brands as $brand)
+                <option value="{{ $brand->getId() }}">{{ $brand->getTitle() }}</option>
+            @endforeach
+        </select>
         price:<input type="text" name="price" value="">
         description:<input type="text" name="description" value="">
         <select name="type" id="">
-            <option value="Двери">Двери</option>
-            <option value="Ручка">Ручка</option>
-            <option value="Фурнитура">Фурнитура</option>
+        @foreach($types as $type)
+                <option value="{{ $type->getId() }}">{{ $type->getSingle() }}</option>
+        @endforeach
         </select>
         <label><input type="checkbox" name="isActive">Активность</label>
         <div id="image-block" style="display: grid;">

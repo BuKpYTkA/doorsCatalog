@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddIsActiveToAdditionalProductsTable extends Migration
+class CreateMainProductTypesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,11 @@ class AddIsActiveToAdditionalProductsTable extends Migration
      */
     public function up()
     {
-        Schema::table('additional_products', function (Blueprint $table) {
-            $table->boolean('is_active')->default(1);
+        Schema::create('main_product_types', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('single')->nullable();
+            $table->string('multiple')->nullable();
+            $table->timestamps();
         });
     }
 
@@ -25,8 +28,6 @@ class AddIsActiveToAdditionalProductsTable extends Migration
      */
     public function down()
     {
-        Schema::table('additional_products', function (Blueprint $table) {
-            $table->dropColumn('is_active');
-        });
+        Schema::dropIfExists('main_product_types');
     }
 }

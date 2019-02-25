@@ -9,5 +9,9 @@
         @endforeach
         {{ $products->links() }}
             <a href="{{ route('admin.create.additional.product') }}"><input type="button" value="Создать"></a>
+            @foreach($paginationValues as $value)
+                <br>
+                <a href="{{ route('set.pag', md5($value)) }}">{{ $value }}</a>
+            @endforeach
     </div>
 @endsection

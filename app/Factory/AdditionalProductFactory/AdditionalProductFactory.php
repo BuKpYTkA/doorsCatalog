@@ -8,26 +8,26 @@
 
 namespace App\Factory\AdditionalProductFactory;
 
-
 use App\Entity\AdditionalProduct\AdditionalProduct;
 use App\Entity\Product\ProductInterface;
 use App\Factory\ProductFactory\ProductFactory;
 
 class AdditionalProductFactory extends ProductFactory implements AdditionalProductFactoryInterface
 {
+
     /**
      * @param string|null $title
      * @param int|null $price
-     * @param string|null $type
+     * @param int|null $type
      * @param bool|null $isActive
      * @return AdditionalProduct|ProductInterface
      */
-    public function create(string $title = null, int $price = null, string $type = null, bool $isActive = null)
+    public function create(string $title = null, int $price = null, int $type = null, bool $isActive = null)
     {
         return new AdditionalProduct([
             'title' => $title,
             'price' => $price,
-            'type' => $type,
+            'type_id' => $type,
             'is_active' => $isActive
         ]);
     }

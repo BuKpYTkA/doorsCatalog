@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Admin\MainProduct;
 
-use App\Entity\Image\Image;
 use App\Repository\MainProductRepository\MainProductRepositoryInterface;
+use App\Services\PaginationValues\PaginationValues;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -24,7 +24,6 @@ class MainProducts extends Controller
         $this->mainProductRepository = $mainProductRepository;
     }
 
-
     /**
      * Handle the incoming request.
      *
@@ -33,11 +32,16 @@ class MainProducts extends Controller
      */
     public function __invoke(Request $request)
     {
-        $pag = 5;
-        if ($request->cookie('pag')) {
-            $pag = $request->cookie('pag');
+        $paginationValues = PaginationValues::PAGINATION_VALUES;
+        $pag = PaginationValues::DEFAULT;
+        if ($request->cookie(md5(route('admin.show.main.products').'pagination'))) {
+            $pag = $request->cookie(md5(route('admin.show.main.products').'pagination'));
         }
         $products = $this->mainProductRepository->findAll($pag);
-        return view('admin.mainProduct.index', ['products' => $products]);
+        return view('admin.mainProduct.index', [
+            'products' => $products,
+            'paginationValues' => $paginationValues,
+        ]);
     }
+
 }

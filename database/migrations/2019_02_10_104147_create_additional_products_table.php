@@ -17,6 +17,8 @@ class CreateAdditionalProductsTable extends Migration
             $table->increments('id');
             $table->string('title')->nullable();
             $table->integer('price')->nullable();
+            $table->integer('type_id')->default(null);
+            $table->boolean('is_active')->default(1);
             $table->timestamps();
         });
     }

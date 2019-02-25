@@ -18,4 +18,5 @@ interface ImageFactoryInterface
      * @return Image
      */
     public function create(int $productId = null, string $url = null);
+
 }

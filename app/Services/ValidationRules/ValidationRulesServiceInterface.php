@@ -10,6 +10,7 @@ namespace App\Services\ValidationRules;
 
 interface ValidationRulesServiceInterface
 {
+
     /**
      * @return array
      */
@@ -19,4 +20,10 @@ interface ValidationRulesServiceInterface
      * @return array
      */
     public function getAdditionalProductRules();
+
+    /**
+     * @return array
+     */
+    public function getFeedBackRules();
+
 }

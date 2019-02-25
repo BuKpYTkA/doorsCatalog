@@ -4,14 +4,19 @@
     <form action="{{ route('admin.edit.main.product', $mainProduct->getId()) }}" method="POST">
         @csrf
         title:<input type="text" name="title" value="{{ $mainProduct->getTitle() }}">
-        brand:<input type="text" name="brand" value="{{ $mainProduct->getBrand() }}">
+        <select name="brand" id="">
+            @foreach($brands as $brand)
+                <option {{ $mainProduct->getBrandId() === $brand->getId() ? 'selected="selected"' : '' }} value="{{ $brand->getId() }}">{{ $brand->getTitle() }}</option>
+                @endforeach
+        </select>
         price:<input type="text" name="price" value="{{ $mainProduct->getPrice() }}">
         description:<input type="text" name="description" value="{{ $mainProduct->getDescription() }}">
         <select name="type" id="">
-            <option {{ $mainProduct->getType() === 'Двери' ? 'selected=selected' : '' }} value="Двери">Двери</option>
-            <option {{ $mainProduct->getType() === 'Ручка' ? 'selected=selected' : '' }} value="Ручка">Ручка</option>
-            <option {{ $mainProduct->getType() === 'Фурнитура' ? 'selected=selected' : '' }} value="Фурнитура">Фурнитура</option>
+        @foreach($types as $type)
+            <option {{ $mainProduct->getTypeId() === $type->getId() ? 'selected="selected"' : '' }} value="{{ $type->getId() }}">{{ $type->getSingle() }}</option>
+        @endforeach
         </select>
+        <input {{ $mainProduct->isActive() ? 'checked="checked"' : '' }} type="checkbox" value="isActive">
         @foreach($images as $image)
             <input type="text" value="{{ $image->getUrl() }}">
         @endforeach

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\AdditionalProduct\Edit;
 
 use App\Repository\AdditionalProductRepository\AdditionalProductRepositoryInterface;
+use App\Repository\ProductTypeRepository\AdditionalTypeRepository;
 use App\Services\ValidationRules\ValidationRulesServiceInterface;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -21,15 +22,23 @@ class EditAdditionalProduct extends Controller
     private $validationRules;
 
     /**
+     * @var AdditionalTypeRepository
+     */
+    private $typeRepository;
+
+    /**
      * EditAdditionalProduct constructor.
      * @param AdditionalProductRepositoryInterface $additionalProductRepository
      * @param ValidationRulesServiceInterface $validationRules
+     * @param AdditionalTypeRepository $typeRepository
      */
     public function __construct(AdditionalProductRepositoryInterface $additionalProductRepository,
-                                ValidationRulesServiceInterface $validationRules)
+                                ValidationRulesServiceInterface $validationRules,
+                                AdditionalTypeRepository $typeRepository)
     {
         $this->additionalProductRepository = $additionalProductRepository;
         $this->validationRules = $validationRules;
+        $this->typeRepository = $typeRepository;
     }
 
     /**
@@ -43,10 +52,14 @@ class EditAdditionalProduct extends Controller
     public function __invoke(Request $request, int $id)
     {
         $additionalProduct = $this->additionalProductRepository->findOrFail($id);
+        $types = $this->typeRepository->findAll();
         if ($request->post()) {
             $additionalProduct = $this->postRequest($request, $id);
         }
-        return view('admin.additionalProduct.edit.editAdditionalProduct', ['mainProduct' => $additionalProduct]);
+        return view('admin.additionalProduct.edit.editAdditionalProduct', [
+            'additionalProduct' => $additionalProduct,
+            'types' => $types,
+            ]);
     }
 
     /**
@@ -61,7 +74,7 @@ class EditAdditionalProduct extends Controller
         $additionalProduct = $this->additionalProductRepository->find($id);
         $additionalProduct->setTitle($request->post('title'));
         $additionalProduct->setPrice($request->post('price'));
-        $additionalProduct->setType($request->post('type'));
+        $additionalProduct->setTypeId($request->post('type'));
         $additionalProduct->setIsActive($request->post('isActive') ? true : false);
         $this->additionalProductRepository->save($additionalProduct);
         return $additionalProduct;

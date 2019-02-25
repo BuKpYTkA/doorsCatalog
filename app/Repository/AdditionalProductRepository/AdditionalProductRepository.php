@@ -8,11 +8,10 @@
 
 namespace App\Repository\AdditionalProductRepository;
 
-
 use App\Entity\AdditionalProduct\AdditionalProduct;
 use App\Entity\AdditionalProduct\AdditionalProductInterface;
+use App\Entity\ProductTypes\AdditionalProductType;
 use App\Repository\ProductRepository\ProductRepository;
-use Illuminate\Database\Eloquent\Model;
 
 class AdditionalProductRepository extends ProductRepository implements AdditionalProductRepositoryInterface
 {
@@ -24,6 +23,15 @@ class AdditionalProductRepository extends ProductRepository implements Additiona
     public function __construct(AdditionalProduct $additionalProduct)
     {
         parent::__construct($additionalProduct);
+    }
+
+    /**
+     * @param AdditionalProductInterface $additionalProduct
+     * @return AdditionalProductType
+     */
+    public function findType(AdditionalProductInterface $additionalProduct)
+    {
+        return $additionalProduct->belongsTo(AdditionalProductType::class, 'type_id')->get()->all();
     }
 
 }

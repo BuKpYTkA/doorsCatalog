@@ -5,8 +5,11 @@ namespace App\Http\Controllers\Admin\MainProduct\Create;
 use App\Entity\MainProduct\MainProductInterface;
 use App\Factory\ImageFactory\ImageFactoryInterface;
 use App\Factory\MainProductFactory\MainProductFactoryInterface;
+use App\Repository\BrandRepository\BrandRepository;
+use App\Repository\BrandRepository\BrandRepositoryInterface;
 use App\Repository\ImageRepository\ImageRepositoryInterface;
 use App\Repository\MainProductRepository\MainProductRepositoryInterface;
+use App\Repository\ProductTypeRepository\MainTypeRepository;
 use App\Services\ValidationRules\ValidationRulesServiceInterface;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -40,24 +43,40 @@ class CreateMainProduct extends Controller
     private $imageFactory;
 
     /**
+     * @var MainTypeRepository
+     */
+    private $typeRepository;
+
+    /**
+     * @var BrandRepository
+     */
+    private $brandRepository;
+
+    /**
      * CreateMainProduct constructor.
      * @param MainProductFactoryInterface $mainProductFactory
      * @param MainProductRepositoryInterface $mainProductRepository
      * @param ValidationRulesServiceInterface $validationRules
      * @param ImageRepositoryInterface $imageRepository
      * @param ImageFactoryInterface $imageFactory
+     * @param MainTypeRepository $typeRepository
+     * @param BrandRepositoryInterface $brandRepository
      */
     public function __construct(MainProductFactoryInterface $mainProductFactory,
                                 MainProductRepositoryInterface $mainProductRepository,
                                 ValidationRulesServiceInterface $validationRules,
                                 ImageRepositoryInterface $imageRepository,
-                                ImageFactoryInterface $imageFactory)
+                                ImageFactoryInterface $imageFactory,
+                                MainTypeRepository $typeRepository,
+                                BrandRepositoryInterface $brandRepository)
     {
         $this->mainProductFactory = $mainProductFactory;
         $this->mainProductRepository = $mainProductRepository;
         $this->validationRules = $validationRules;
         $this->imageRepository = $imageRepository;
         $this->imageFactory = $imageFactory;
+        $this->typeRepository = $typeRepository;
+        $this->brandRepository = $brandRepository;
     }
 
     /**
@@ -69,10 +88,15 @@ class CreateMainProduct extends Controller
      */
     public function __invoke(Request $request)
     {
+        $types = $this->typeRepository->findAll();
+        $brands = $this->brandRepository->findAll();
         if ($request->post()) {
             return $this->postRequest($request);
         }
-        return view('admin.mainProduct.create.createMainProduct');
+        return view('admin.mainProduct.create.createMainProduct', [
+            'types' => $types,
+            'brands' => $brands
+        ]);
     }
 
     /**
@@ -116,8 +140,10 @@ class CreateMainProduct extends Controller
     {
         foreach ($request->all() as $key => $value) {
             if (preg_match('/^image/', $key)) {
-                $image = $this->imageFactory->create($mainProduct->getId(), $value);
-                $this->imageRepository->save($image);
+                if ($value) {
+                    $image = $this->imageFactory->create($mainProduct->getId(), $value);
+                    $this->imageRepository->save($image);
+                }
             }
         }
     }

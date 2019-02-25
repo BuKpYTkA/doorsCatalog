@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 
 interface GeneralRepositoryInterface
 {
+
     /**
      * @param int $id
      * @return Model

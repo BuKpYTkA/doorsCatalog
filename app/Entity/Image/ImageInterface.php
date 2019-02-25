@@ -12,6 +12,7 @@ use App\Entity\MainProduct\MainProductInterface;
 
 interface ImageInterface
 {
+
     /**
      * @return MainProductInterface
      */
@@ -43,4 +44,5 @@ interface ImageInterface
      * @return int
      */
     public function getId();
+
 }

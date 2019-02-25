@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddTypeToMainProductsTable extends Migration
+class CreateBrandsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,10 @@ class AddTypeToMainProductsTable extends Migration
      */
     public function up()
     {
-        Schema::table('main_products', function (Blueprint $table) {
-            $table->string('type')->default(null);
+        Schema::create('brands', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('title');
+            $table->timestamps();
         });
     }
 
@@ -25,8 +27,6 @@ class AddTypeToMainProductsTable extends Migration
      */
     public function down()
     {
-        Schema::table('main_products', function (Blueprint $table) {
-            $table->dropColumn('type');
-        });
+        Schema::dropIfExists('brands');
     }
 }

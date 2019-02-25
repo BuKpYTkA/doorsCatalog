@@ -1,16 +1,16 @@
 @extends ('layouts.app')
 
 @section('content')
-    <form action="{{ route('admin.edit.additional.product', $mainProduct->getId()) }}" method="POST">
+    <form action="{{ route('admin.edit.additional.product', $additionalProduct->getId()) }}" method="POST">
         @csrf
-        title:<input type="text" name="title" value="{{ $mainProduct->getTitle() }}">
-        price:<input type="text" name="price" value="{{ $mainProduct->getPrice() }}">
+        title:<input type="text" name="title" value="{{ $additionalProduct->getTitle() }}">
+        price:<input type="text" name="price" value="{{ $additionalProduct->getPrice() }}">
         <select name="type" id="">
-            <option {{ $mainProduct->getType() === 'Двери' ? 'selected=selected' : '' }} value="Двери">Двери</option>
-            <option {{ $mainProduct->getType() === 'Ручка' ? 'selected=selected' : '' }} value="Ручка">Ручка</option>
-            <option {{ $mainProduct->getType() === 'Фурнитура' ? 'selected=selected' : '' }} value="Фурнитура">Фурнитура</option>
+            @foreach($types as $type)
+                <option {{ $additionalProduct->getTypeId() === $type->getId() ? 'selected="selected"' : '' }} value="{{ $type->getId() }}">{{ $type->getSingle() }}</option>
+            @endforeach
         </select>
-        <input type="checkbox" {{ $mainProduct->isActive() ? 'checked' : '' }} name="isActive">
+        <input type="checkbox" {{ $additionalProduct->isActive() ? 'checked' : '' }} name="isActive">
         <input type="submit" name="save" value="Сохранить">
     </form>
 @endsection

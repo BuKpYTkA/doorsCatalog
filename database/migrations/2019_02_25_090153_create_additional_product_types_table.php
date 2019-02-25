@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddTypeToAdditionalProductsTable extends Migration
+class CreateAdditionalProductTypesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,11 @@ class AddTypeToAdditionalProductsTable extends Migration
      */
     public function up()
     {
-        Schema::table('additional_products', function (Blueprint $table) {
-            $table->string('type')->default(null);
+        Schema::create('additional_product_types', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('single')->nullable();
+            $table->string('multiple')->nullable();
+            $table->timestamps();
         });
     }
 
@@ -25,8 +28,6 @@ class AddTypeToAdditionalProductsTable extends Migration
      */
     public function down()
     {
-        Schema::table('additional_products', function (Blueprint $table) {
-            $table->dropColumn('type');
-        });
+        Schema::dropIfExists('additional_product_types');
     }
 }

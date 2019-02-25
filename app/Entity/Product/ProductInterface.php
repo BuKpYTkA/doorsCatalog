@@ -44,12 +44,13 @@ interface ProductInterface
     public function setIsActive(bool $isActive);
 
     /**
-     * @return string
+     * @return int
      */
-    public function getType();
+    public function getTypeId();
 
     /**
-     * @param string $type
+     * @param int $type_id
      */
-    public function setType(string $type);
+    public function setTypeId(int $type_id);
+
 }

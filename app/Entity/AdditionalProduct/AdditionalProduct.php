@@ -10,6 +10,11 @@ namespace App\Entity\AdditionalProduct;
 
 use App\Entity\Product\Product;
 
+/**
+ * Class AdditionalProduct
+ * @package App\Entity\AdditionalProduct
+ * @property int $type_id
+ */
 class AdditionalProduct extends Product implements AdditionalProductInterface
 {
 
@@ -17,21 +22,7 @@ class AdditionalProduct extends Product implements AdditionalProductInterface
         'title',
         'price',
         'is_active',
-        'type',
+        'type_id',
         ];
-
-//    /**
-//     * AdditionalProduct constructor.
-//     * @param string|null $title
-//     * @param int|null $price
-//     */
-//    public function __construct(
-//        string $title = null,
-//        int $price = null
-//    )
-//    {
-//        $this->title = $title;
-//        $this->price = $price;
-//    }
 
 }
