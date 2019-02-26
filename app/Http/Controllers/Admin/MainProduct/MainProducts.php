@@ -33,14 +33,25 @@ class MainProducts extends Controller
     public function __invoke(Request $request)
     {
         $paginationValues = PaginationValues::PAGINATION_VALUES;
-        $pag = PaginationValues::DEFAULT;
-        if ($request->cookie(md5(route('admin.show.main.products').'pagination'))) {
-            $pag = $request->cookie(md5(route('admin.show.main.products').'pagination'));
+        $pag = $request->get('per_page');
+        if (!$pag || !in_array($pag, $paginationValues)) {
+            $pag = PaginationValues::DEFAULT;
         }
         $products = $this->mainProductRepository->findAll($pag);
+        if ($request->get('per_page')) {
+            $products->appends(['per_page' => $pag]);
+        }
+        foreach ($products as $product) {
+            $product->setImages($this->mainProductRepository->findImages($product));
+        }
+        if ($request->get('page') > $products->lastPage()) {
+            abort(404);
+        }
+        $links = $products->links();
         return view('admin.mainProduct.index', [
             'products' => $products,
             'paginationValues' => $paginationValues,
+            'links' => $links,
         ]);
     }
 

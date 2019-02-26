@@ -76,4 +76,22 @@ class MainProductRepository extends ProductRepository implements MainProductRepo
         return $brand->hasMany($this->mainProduct)->get()->all();
     }
 
+    /**
+     * @param int $to
+     * @param int $from
+     * @param int|null $paginator
+     * @return MainProductInterface[]
+     */
+    public function findByExactPrice(int $to, int $from = 0, int $paginator = null)
+    {
+        if ($paginator) {
+            return $this->mainProduct->where('price', '>=', $from)
+                ->where('price', '<=', $to)
+                ->paginate($paginator);
+        }
+        return $this->mainProduct->where('price', '>=', $from)
+            ->where('price', '<=', $to)
+            ->get()->all();
+    }
+
 }

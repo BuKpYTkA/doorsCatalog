@@ -8,7 +8,10 @@
 
 namespace App\Entity\MainProduct;
 
+use App\Entity\Brand\BrandInterface;
+use App\Entity\Image\ImageInterface;
 use App\Entity\Product\ProductInterface;
+use App\Entity\ProductTypes\MainProductType;
 
 interface MainProductInterface extends ProductInterface
 {
@@ -35,5 +38,35 @@ interface MainProductInterface extends ProductInterface
      * @return void
      */
     public function setBrandId(int $brand);
+
+    /**
+     * @return ImageInterface[]
+     */
+    public function getImages();
+
+    /**
+     * @param ImageInterface[] $images
+     */
+    public function setImages(array $images);
+
+    /**
+     * @return BrandInterface
+     */
+    public function getBrand();
+
+    /**
+     * @return MainProductType
+     */
+    public function getType();
+
+    /**
+     * @param BrandInterface $brand
+     */
+    public function setBrand(BrandInterface $brand);
+
+    /**
+     * @param MainProductType $type
+     */
+    public function setType(MainProductType $type);
 
 }

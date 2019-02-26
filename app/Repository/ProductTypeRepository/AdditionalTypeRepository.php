@@ -8,11 +8,18 @@
 
 namespace App\Repository\ProductTypeRepository;
 
+use App\Entity\AdditionalProduct\AdditionalProduct;
+use App\Entity\AdditionalProduct\AdditionalProductInterface;
 use App\Entity\ProductTypes\AdditionalProductType;
 use App\Repository\GeneralRepository\GeneralRepository;
 
 class AdditionalTypeRepository extends GeneralRepository
 {
+
+    /**
+     * @var AdditionalProductType
+     */
+    private $additionalProductType;
 
     /**
      * AdditionalTypeRepository constructor.
@@ -21,6 +28,16 @@ class AdditionalTypeRepository extends GeneralRepository
     public function __construct(AdditionalProductType $additionalProductType)
     {
         parent::__construct($additionalProductType);
+        $this->additionalProductType = $additionalProductType;
+    }
+
+    /**
+     * @param $additionalProductType AdditionalProductInterface
+     * @return AdditionalProduct[]
+     */
+    public function findProducts($additionalProductType)
+    {
+        return $additionalProductType->hasMany(AdditionalProduct::class, 'type_id')->get()->all();
     }
 
 }

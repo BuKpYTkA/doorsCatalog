@@ -15,6 +15,11 @@ class AdditionalProductType extends Model
 {
 
     /**
+     * @var int
+     */
+    private $count;
+
+    /**
      * @return int
      */
     public function getId()
@@ -36,6 +41,22 @@ class AdditionalProductType extends Model
     public function getMultiple()
     {
         return $this->multiple;
+    }
+
+    /**
+     * @return int
+     */
+    public function getCount()
+    {
+        return $this->count;
+    }
+
+    /**
+     * @param int $count
+     */
+    public function setCount(int $count)
+    {
+        $this->count = $count;
     }
 
 }

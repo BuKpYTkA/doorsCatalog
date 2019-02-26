@@ -8,7 +8,10 @@
 
 namespace App\Entity\MainProduct;
 
+use App\Entity\Brand\BrandInterface;
+use App\Entity\Image\ImageInterface;
 use App\Entity\Product\Product;
+use App\Entity\ProductTypes\MainProductType;
 
 /**
  * class Handle
@@ -18,6 +21,21 @@ use App\Entity\Product\Product;
  */
 class MainProduct extends Product implements MainProductInterface
 {
+
+    /**
+     * @var ImageInterface[]
+     */
+    private $images;
+
+    /**
+     * @var BrandInterface
+     */
+    private $brand;
+
+    /**
+     * @var MainProductType
+     */
+    private $type;
 
     /**
      * @var array
@@ -63,6 +81,54 @@ class MainProduct extends Product implements MainProductInterface
     public function setDescription(string $description)
     {
         $this->description = $description;
+    }
+
+    /**
+     * @return ImageInterface[]
+     */
+    public function getImages()
+    {
+        return $this->images;
+    }
+
+    /**
+     * @param ImageInterface[] $images
+     */
+    public function setImages(array $images)
+    {
+        $this->images = $images;
+    }
+
+    /**
+     * @return BrandInterface
+     */
+    public function getBrand()
+    {
+        return $this->brand;
+    }
+
+    /**
+     * @return MainProductType
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * @param BrandInterface $brand
+     */
+    public function setBrand(BrandInterface $brand)
+    {
+        $this->brand = $brand;
+    }
+
+    /**
+     * @param MainProductType $type
+     */
+    public function setType(MainProductType $type)
+    {
+        $this->type = $type;
     }
 
 }

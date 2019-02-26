@@ -48,4 +48,12 @@ interface MainProductRepositoryInterface extends ProductRepositoryInterface
      */
     public function findByType(MainProductType $mainProductType);
 
+    /**
+     * @param int $to
+     * @param int $from
+     * @param int|null $paginator
+     * @return MainProductInterface[]
+     */
+    public function findByExactPrice(int $to, int $from = 0, int $paginator = null);
+
 }

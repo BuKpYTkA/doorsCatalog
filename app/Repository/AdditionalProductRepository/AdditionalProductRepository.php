@@ -17,12 +17,18 @@ class AdditionalProductRepository extends ProductRepository implements Additiona
 {
 
     /**
+     * @var AdditionalProductInterface
+     */
+    private $additionalProduct;
+
+    /**
      * AdditionalProductRepository constructor.
      * @param AdditionalProduct $additionalProduct
      */
     public function __construct(AdditionalProduct $additionalProduct)
     {
         parent::__construct($additionalProduct);
+        $this->additionalProduct = $additionalProduct;
     }
 
     /**
@@ -31,7 +37,19 @@ class AdditionalProductRepository extends ProductRepository implements Additiona
      */
     public function findType(AdditionalProductInterface $additionalProduct)
     {
-        return $additionalProduct->belongsTo(AdditionalProductType::class, 'type_id')->get()->all();
+        return $additionalProduct->belongsTo(AdditionalProductType::class, 'type_id')->get()->first();
+    }
+
+    /**
+     * @param AdditionalProductType $additionalProductType
+     * @return AdditionalProductInterface[]|null
+     */
+    public function findByType(AdditionalProductType $additionalProductType)
+    {
+        if (!$additionalProductType) {
+            return null;
+        }
+        return $additionalProductType->hasMany($this->additionalProduct, 'type_id')->get()->all();
     }
 
 }

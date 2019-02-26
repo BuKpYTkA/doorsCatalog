@@ -20,4 +20,22 @@ interface ProductRepositoryInterface extends GeneralRepositoryInterface
      */
     public function findActive(int $paginator = null);
 
+    /**
+     * @param int|null $paginator
+     * @return ProductInterface[]
+     */
+    public function sortByPriceUp(int $paginator = null);
+
+    /**
+     * @param int|null $paginator
+     * @return ProductInterface[]
+     */
+    public function sortByPriceDown(int $paginator = null);
+
+    /**
+     * @param int|null $paginator
+     * @return ProductInterface[]
+     */
+    public function sortByType(int $paginator = null);
+
 }

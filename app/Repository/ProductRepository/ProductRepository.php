@@ -42,4 +42,40 @@ class ProductRepository extends GeneralRepository implements ProductRepositoryIn
         return $this->product->where(['is_active' => 1])->get()->all();
     }
 
+    /**
+     * @param int|null $paginator
+     * @return ProductInterface[]
+     */
+    public function sortByPriceUp(int $paginator = null)
+    {
+        if ($paginator) {
+            return $this->product->orderBy('price')->paginate($paginator);
+        }
+        return $this->product->orderBy('price')->get()->all();
+    }
+
+    /**
+     * @param int|null $paginator
+     * @return ProductInterface[]
+     */
+    public function sortByPriceDown(int $paginator = null)
+    {
+        if ($paginator) {
+            return $this->product->orderBy('price', 'desc')->paginate($paginator);
+        }
+        return $this->product->orderBy('price', 'desc')->get()->all();
+    }
+
+    /**
+     * @param int|null $paginator
+     * @return ProductInterface[]
+     */
+    public function sortByType(int $paginator = null)
+    {
+        if ($paginator) {
+            return $this->product->orderBy('type_id')->paginate($paginator);
+        }
+        return $this->product->orderBy('type_id')->get()->all();
+    }
+
 }

@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers\Admin\MainProduct\Edit;
 
+use App\Entity\Image\ImageInterface;
+use App\Entity\MainProduct\MainProductInterface;
+use App\Factory\ImageFactory\ImageFactoryInterface;
 use App\Repository\BrandRepository\BrandRepository;
 use App\Repository\BrandRepository\BrandRepositoryInterface;
+use App\Repository\ImageRepository\ImageRepositoryInterface;
 use App\Repository\MainProductRepository\MainProductRepositoryInterface;
 use App\Repository\ProductTypeRepository\MainTypeRepository;
 use App\Services\ValidationRules\ValidationRulesServiceInterface;
@@ -34,21 +38,36 @@ class EditMainProduct extends Controller
     private $brandRepository;
 
     /**
+     * @var ImageRepositoryInterface
+     */
+    private $imageRepository;
+
+    /**
+     * @var ImageFactoryInterface
+     */
+    private $imageFactory;
+
+    /**
      * EditMainProduct constructor.
      * @param MainProductRepositoryInterface $mainProductRepository
      * @param ValidationRulesServiceInterface $validationRules
      * @param MainTypeRepository $typeRepository
-     * @param BrandRepositoryInterface $brandRepository
+     * @param BrandRepository $brandRepository
+     * @param ImageRepositoryInterface $imageRepository
+     * @param ImageFactoryInterface $imageFactory
      */
     public function __construct(MainProductRepositoryInterface $mainProductRepository,
                                 ValidationRulesServiceInterface $validationRules,
                                 MainTypeRepository $typeRepository,
-                                BrandRepositoryInterface $brandRepository)
+                                BrandRepository $brandRepository,
+                                ImageRepositoryInterface $imageRepository, ImageFactoryInterface $imageFactory)
     {
         $this->mainProductRepository = $mainProductRepository;
         $this->validationRules = $validationRules;
         $this->typeRepository = $typeRepository;
         $this->brandRepository = $brandRepository;
+        $this->imageRepository = $imageRepository;
+        $this->imageFactory = $imageFactory;
     }
 
     /**
@@ -62,15 +81,16 @@ class EditMainProduct extends Controller
     public function __invoke(Request $request, int $id)
     {
         $mainProduct = $this->mainProductRepository->findOrFail($id);
+        if ($request->post()) {
+            $mainProduct = $this->postRequest($request, $mainProduct);
+        }
         $images = $this->mainProductRepository->findImages($mainProduct);
+        $mainProduct->setImages($images);
         $types = $this->typeRepository->findAll();
         $brands = $this->brandRepository->findAll();
-        if ($request->post()) {
-            $mainProduct = $this->postRequest($request, $id);
-        }
         return view('admin.mainProduct.edit.editMainProduct', [
             'mainProduct' => $mainProduct,
-            'images' => $images,
+//            'images' => $images,
             'types' => $types,
             'brands' => $brands,
         ]);
@@ -78,21 +98,54 @@ class EditMainProduct extends Controller
 
     /**
      * @param Request $request
-     * @param int $id
-     * @return \App\Entity\MainProduct\MainProduct
+     * @param MainProductInterface $mainProduct
+     * @return \App\Entity\MainProduct\MainProductInterface
      * @throws \Illuminate\Validation\ValidationException
      */
-    private function postRequest(Request $request, int $id)
+    private function postRequest(Request $request, MainProductInterface $mainProduct)
     {
         $this->validate($request, $this->validationRules->getMainProductRules());
-        $mainProduct = $this->mainProductRepository->find($id);
+        $this->editMainProduct($request, $mainProduct);
+        $images = $this->editImages($request, $mainProduct);
+        $mainProduct->setImages($images);
+        return $mainProduct;
+    }
+
+    /**
+     * @param Request $request
+     * @param MainProductInterface $mainProduct
+     * @return void
+     */
+    private function editMainProduct(Request $request, MainProductInterface $mainProduct)
+    {
         $mainProduct->setTitle($request->post('title'));
         $mainProduct->setBrandId($request->post('brand'));
         $mainProduct->setDescription($request->post('description') ?? '');
         $mainProduct->setPrice($request->post('price'));
         $mainProduct->setTypeId($request->post('type'));
         $this->mainProductRepository->save($mainProduct);
-        return $mainProduct;
+    }
+
+    /**
+     * @param Request $request
+     * @param MainProductInterface $mainProduct
+     * @return ImageInterface[]
+     */
+    private function editImages(Request $request, MainProductInterface $mainProduct)
+    {
+        $images = $this->mainProductRepository->findImages($mainProduct);
+        foreach ($images as $image) {
+            $this->imageRepository->delete($image);
+        }
+        foreach ($request->all() as $key => $value) {
+            if (preg_match('/^image/', $key)) {
+                if ($value) {
+                    $image = $this->imageFactory->create($mainProduct->getId(), $value);
+                    $this->imageRepository->save($image);
+                }
+            }
+        }
+        return $images;
     }
 
 }

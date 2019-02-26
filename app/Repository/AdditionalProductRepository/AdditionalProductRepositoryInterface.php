@@ -21,4 +21,10 @@ interface AdditionalProductRepositoryInterface extends ProductRepositoryInterfac
      */
     public function findType(AdditionalProductInterface $additionalProduct);
 
+    /**
+     * @param AdditionalProductType $additionalProductType
+     * @return AdditionalProductInterface[]|null
+     */
+    public function findByType(AdditionalProductType $additionalProductType);
+
 }

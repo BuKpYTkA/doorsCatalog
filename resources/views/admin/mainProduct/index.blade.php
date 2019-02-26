@@ -9,11 +9,20 @@
                 <a href="{{ route('admin.delete.main.product', $product->getId()) }}">Delete</a>
             </p>
         @endforeach
-        {{ $products->links() }}
+        {{ $links }}
             <a href="{{ route('admin.create.main.product') }}"><input type="button" value="Создать"></a>
             @foreach($paginationValues as $value)
             <br>
-            <a href="{{ route('set.pag', md5($value)) }}">{{ $value }}</a>
+            <a href="?per_page={{ $value }}">{{ $value }}</a>
+            @endforeach
+            <br>
+        @foreach($products as $product)
+            {{ $product->getTitle() }}
+                <br>
+            @foreach($product->getImages() as $image)
+                {{ $image->getGoogleUrl() }}
+                    <br>
+                @endforeach
             @endforeach
     </div>
 @endsection
