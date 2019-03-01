@@ -12,9 +12,15 @@ use App\Entity\Brand\Brand;
 use App\Entity\Brand\BrandInterface;
 use App\Entity\MainProduct\MainProduct;
 use App\Repository\GeneralRepository\GeneralRepository;
+use Illuminate\Database\Eloquent\Collection;
 
 class BrandRepository extends GeneralRepository implements BrandRepositoryInterface
 {
+
+    /**
+     * @var Brand
+     */
+    private $brand;
 
     /**
      * BrandRepository constructor.
@@ -23,6 +29,7 @@ class BrandRepository extends GeneralRepository implements BrandRepositoryInterf
     public function __construct(Brand $brand)
     {
         parent::__construct($brand);
+        $this->brand = $brand;
     }
 
     /**
@@ -33,7 +40,7 @@ class BrandRepository extends GeneralRepository implements BrandRepositoryInterf
         $brandsWithProduct = [];
         $brands = $this->findAll();
         foreach ($brands as $brand) {
-            $products = $brand->hasMany(MainProduct::class)->get()->all();
+            $products = $brand->hasMany(MainProduct::class)->get();
             if ($products) {
                 $brandsWithProduct[] = $brand;
             }

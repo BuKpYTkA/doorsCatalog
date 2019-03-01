@@ -23,6 +23,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('', 'Admin\AdminController')->name('admin');
         Route::prefix('main_products')->group(function () {
             Route::get('/', 'Admin\MainProduct\MainProducts')->name('admin.show.main.products');
+            Route::get('filter', 'Admin\MainProduct\GetFiltered\GetFilteredMainProducts')->name('admin.show.filtered.main.products');
             Route::get('delete/{id}', 'Admin\MainProduct\Delete\DeleteMainProduct')->name('admin.delete.main.product');
             Route::match(['get', 'post'],'create', 'Admin\MainProduct\Create\CreateMainProduct')->name('admin.create.main.product');
             Route::match(['get', 'post'],'edit/{id}', 'Admin\MainProduct\Edit\EditMainProduct')->name('admin.edit.main.product');

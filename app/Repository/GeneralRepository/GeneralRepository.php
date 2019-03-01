@@ -8,6 +8,7 @@
 
 namespace App\Repository\GeneralRepository;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 abstract class GeneralRepository implements GeneralRepositoryInterface
@@ -29,7 +30,7 @@ abstract class GeneralRepository implements GeneralRepositoryInterface
 
     /**
      * @param int $id
-     * @return Model
+     * @return Model|null
      */
     public function find(int $id)
     {
@@ -38,7 +39,7 @@ abstract class GeneralRepository implements GeneralRepositoryInterface
 
     /**
      * @param int $paginator |null
-     * @return \Illuminate\Database\Eloquent\Collection|Model[]
+     * @return Collection Model|LengthAwarePaginator
      */
     public function findAll(int $paginator = null)
     {
@@ -74,6 +75,43 @@ abstract class GeneralRepository implements GeneralRepositoryInterface
     public function delete(Model $model)
     {
         $model->delete();
+    }
+
+    /**
+     * @param array $params
+     * @return Collection
+     */
+    public function findWhere(array $params)
+    {
+        $result = null;
+        foreach ($params as $key => $value)
+        {
+            if (!$result) {
+                $result = $this->model->whereIn($key, $value);
+            }
+            else {
+                $result->whereIn($key, $value);
+            }
+        }
+        return $result;
+    }
+
+    /**
+     * @param array $ids
+     * @return Collection
+     */
+    public function whereIn(array $ids)
+    {
+        return $this->model->whereIn('id', $ids)->get();
+    }
+
+    /**
+     * @param string $title
+     * @return Model|404
+     */
+    public function findByTitle(string $title)
+    {
+        return $this->model->where('title', $title)->firstOrFail();
     }
 
 }

@@ -12,6 +12,7 @@ use App\Entity\AdditionalProduct\AdditionalProduct;
 use App\Entity\AdditionalProduct\AdditionalProductInterface;
 use App\Entity\ProductTypes\AdditionalProductType;
 use App\Repository\ProductRepository\ProductRepository;
+use Illuminate\Database\Eloquent\Collection;
 
 class AdditionalProductRepository extends ProductRepository implements AdditionalProductRepositoryInterface
 {
@@ -42,14 +43,11 @@ class AdditionalProductRepository extends ProductRepository implements Additiona
 
     /**
      * @param AdditionalProductType $additionalProductType
-     * @return AdditionalProductInterface[]|null
+     * @return Collection AdditionalProductInterface
      */
     public function findByType(AdditionalProductType $additionalProductType)
     {
-        if (!$additionalProductType) {
-            return null;
-        }
-        return $additionalProductType->hasMany($this->additionalProduct, 'type_id')->get()->all();
+        return $additionalProductType->hasMany($this->additionalProduct, 'type_id')->get();
     }
 
 }

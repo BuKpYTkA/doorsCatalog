@@ -12,6 +12,7 @@ use App\Entity\Brand\BrandInterface;
 use App\Entity\Image\ImageInterface;
 use App\Entity\Product\Product;
 use App\Entity\ProductTypes\MainProductType;
+use Illuminate\Database\Eloquent\Collection;
 
 /**
  * class Handle
@@ -94,7 +95,7 @@ class MainProduct extends Product implements MainProductInterface
     /**
      * @param ImageInterface[] $images
      */
-    public function setImages(array $images)
+    public function setImages(Collection $images)
     {
         $this->images = $images;
     }

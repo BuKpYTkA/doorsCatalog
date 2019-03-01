@@ -8,34 +8,33 @@
 
 namespace App\Repository\ProductRepository;
 
-use App\Entity\Product\ProductInterface;
 use App\Repository\GeneralRepository\GeneralRepositoryInterface;
+use Illuminate\Database\Eloquent\Collection;
 
 interface ProductRepositoryInterface extends GeneralRepositoryInterface
 {
 
     /**
      * @param int|null $paginator
-     * @return ProductInterface[]
+     * @return Collection ProductInterface|LengthAwarePaginator
      */
     public function findActive(int $paginator = null);
 
     /**
      * @param int|null $paginator
-     * @return ProductInterface[]
+     * @return Collection ProductInterface|LengthAwarePaginator
      */
     public function sortByPriceUp(int $paginator = null);
 
     /**
      * @param int|null $paginator
-     * @return ProductInterface[]
+     * @return Collection ProductInterface|LengthAwarePaginator
      */
     public function sortByPriceDown(int $paginator = null);
 
     /**
      * @param int|null $paginator
-     * @return ProductInterface[]
+     * @return Collection ProductInterface|LengthAwarePaginator
      */
     public function sortByType(int $paginator = null);
-
 }

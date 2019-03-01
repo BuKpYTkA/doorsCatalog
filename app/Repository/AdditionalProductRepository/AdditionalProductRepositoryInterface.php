@@ -11,6 +11,7 @@ namespace App\Repository\AdditionalProductRepository;
 use App\Entity\AdditionalProduct\AdditionalProductInterface;
 use App\Entity\ProductTypes\AdditionalProductType;
 use App\Repository\ProductRepository\ProductRepositoryInterface;
+use Illuminate\Database\Eloquent\Collection;
 
 interface AdditionalProductRepositoryInterface extends ProductRepositoryInterface
 {
@@ -23,7 +24,7 @@ interface AdditionalProductRepositoryInterface extends ProductRepositoryInterfac
 
     /**
      * @param AdditionalProductType $additionalProductType
-     * @return AdditionalProductInterface[]|null
+     * @return Collection AdditionalProductInterface
      */
     public function findByType(AdditionalProductType $additionalProductType);
 

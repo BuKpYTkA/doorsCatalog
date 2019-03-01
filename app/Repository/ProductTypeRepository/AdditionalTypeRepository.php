@@ -37,7 +37,7 @@ class AdditionalTypeRepository extends GeneralRepository
      */
     public function findProducts($additionalProductType)
     {
-        return $additionalProductType->hasMany(AdditionalProduct::class, 'type_id')->get()->all();
+        return $additionalProductType->hasMany(AdditionalProduct::class, 'type_id')->get();
     }
 
 }

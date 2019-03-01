@@ -11,6 +11,7 @@ namespace App\Repository\ProductRepository;
 use App\Entity\Product\Product;
 use App\Entity\Product\ProductInterface;
 use App\Repository\GeneralRepository\GeneralRepository;
+use Illuminate\Database\Eloquent\Collection;
 
 class ProductRepository extends GeneralRepository implements ProductRepositoryInterface
 {
@@ -32,50 +33,54 @@ class ProductRepository extends GeneralRepository implements ProductRepositoryIn
 
     /**
      * @param int|null $paginator
-     * @return ProductInterface[]
+     * @return Collection ProductInterface|LengthAwarePaginator
      */
     public function findActive(int $paginator = null)
     {
+        $builder = $this->product->where(['is_active' => 1]);
         if ($paginator) {
-            return $this->product->where(['is_active' => 1])->paginate($paginator);
+            return $builder->paginate($paginator);
         }
-        return $this->product->where(['is_active' => 1])->get()->all();
+        return $builder->get();
     }
 
     /**
      * @param int|null $paginator
-     * @return ProductInterface[]
+     * @return Collection ProductInterface|LengthAwarePaginator
      */
     public function sortByPriceUp(int $paginator = null)
     {
+        $builder = $this->product->orderBy('price');
         if ($paginator) {
-            return $this->product->orderBy('price')->paginate($paginator);
+            return $builder->paginate($paginator);
         }
-        return $this->product->orderBy('price')->get()->all();
+        return $builder->get();
     }
 
     /**
      * @param int|null $paginator
-     * @return ProductInterface[]
+     * @return Collection ProductInterface|LengthAwarePaginator
      */
     public function sortByPriceDown(int $paginator = null)
     {
+        $builder = $this->product->orderBy('price', 'desc');
         if ($paginator) {
-            return $this->product->orderBy('price', 'desc')->paginate($paginator);
+            return $builder->paginate($paginator);
         }
-        return $this->product->orderBy('price', 'desc')->get()->all();
+        return $builder->get();
     }
 
     /**
      * @param int|null $paginator
-     * @return ProductInterface[]
+     * @return Collection ProductInterface|LengthAwarePaginator
      */
     public function sortByType(int $paginator = null)
     {
+        $builder = $this->product->orderBy('type_id');
         if ($paginator) {
-            return $this->product->orderBy('type_id')->paginate($paginator);
+            return $builder->paginate($paginator);
         }
-        return $this->product->orderBy('type_id')->get()->all();
+        return $builder->get();
     }
 
 }

@@ -6,16 +6,16 @@
         title:<input type="text" name="title" value="">
         <select name="brand" id="">
             <option disabled selected value>Выберите бренд</option>
-        @foreach($brands as $brand)
+            @foreach($brands as $brand)
                 <option value="{{ $brand->getId() }}">{{ $brand->getTitle() }}</option>
             @endforeach
         </select>
         price:<input type="text" name="price" value="">
         description:<input type="text" name="description" value="">
         <select name="type" id="">
-        @foreach($types as $type)
+            @foreach($types as $type)
                 <option value="{{ $type->getId() }}">{{ $type->getSingle() }}</option>
-        @endforeach
+            @endforeach
         </select>
         <label><input type="checkbox" name="isActive">Активность</label>
         <div id="image-block" style="display: grid;">

@@ -23,7 +23,7 @@
                     <input class="width" name="image-{{ $image->getId() }}" type="text" value="{{ $image->getUrl() }}">
                 @endforeach
             @else
-                <input type="text" name="image" value="">
+                <input class="width" type="text" name="image" value="">
             @endif
         </div>
         <a onclick="addInput()">ADD</a>

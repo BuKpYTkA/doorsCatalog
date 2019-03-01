@@ -8,31 +8,22 @@
 
 namespace App\Repository\GeneralRepository;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 interface GeneralRepositoryInterface
 {
 
+
     /**
      * @param int $id
-     * @return Model
+     * @return Model|null
      */
     public function find(int $id);
 
     /**
-     * @param Model $model
-     * @return void
-     */
-    public function save(Model $model);
-
-    /**
-     * @param Model $model
-     */
-    public function delete(Model $model);
-
-    /**
      * @param int $paginator |null
-     * @return \Illuminate\Database\Eloquent\Collection|Model[]
+     * @return Collection Model|LengthAwarePaginator
      */
     public function findAll(int $paginator = null);
 
@@ -42,5 +33,35 @@ interface GeneralRepositoryInterface
      */
     public function findOrFail($id);
 
+    /**
+     * @param Model $model
+     * @return void
+     */
+    public function save(Model $model);
+
+    /**
+     * @param Model $model
+     * @return void
+     * @throws \Exception
+     */
+    public function delete(Model $model);
+
+    /**
+     * @param array $params
+     * @return Collection
+     */
+    public function findWhere(array $params);
+
+    /**
+     * @param string $title
+     * @return Model|404
+     */
+    public function findByTitle(string $title);
+
+    /**
+     * @param array $ids
+     * @return Collection
+     */
+    public function whereIn(array $ids);
 }
 

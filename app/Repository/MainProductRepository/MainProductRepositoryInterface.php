@@ -8,52 +8,60 @@
 
 namespace App\Repository\MainProductRepository;
 
+use App\Entity\Brand\Brand;
 use App\Entity\Brand\BrandInterface;
-use App\Entity\Image\ImageInterface;
-use App\Entity\MainProduct\MainProduct;
 use App\Entity\MainProduct\MainProductInterface;
 use App\Entity\ProductTypes\MainProductType;
 use App\Repository\ProductRepository\ProductRepositoryInterface;
+use Illuminate\Database\Eloquent\Collection;
+use PhpParser\Builder;
 
 interface MainProductRepositoryInterface extends ProductRepositoryInterface
 {
 
     /**
-     * @param int $id
-     * @return MainProduct
-     */
-    public function find(int $id);
-
-    /**
      * @param MainProductInterface $mainProduct
-     * @return ImageInterface[]
+     * @return Collection ImageInterface
      */
     public function findImages(MainProductInterface $mainProduct);
 
     /**
      * @param MainProductInterface $mainProduct
-     * @return MainProductType
+     * @return Collection MainProductType
      */
     public function findType(MainProductInterface $mainProduct);
 
     /**
-     * @param BrandInterface $brand
-     * @return MainProduct[]|null
-     */
-    public function findByBrand(BrandInterface $brand);
-
-    /**
      * @param MainProductType $mainProductType
-     * @return MainProductInterface[]|null
+     * @return Collection MainProductInterface
      */
     public function findByType(MainProductType $mainProductType);
+
+    /**
+     * @param BrandInterface $brand
+     * @param int|null $paginator
+     * @return Collection MainProductInterface
+     */
+    public function findByBrand(BrandInterface $brand, int $paginator = null);
 
     /**
      * @param int $to
      * @param int $from
      * @param int|null $paginator
-     * @return MainProductInterface[]
+     * @return Collection MainProductInterface|LengthAwarePaginator
      */
     public function findByExactPrice(int $to, int $from = 0, int $paginator = null);
+
+    /**
+     * @param BrandInterface[] $brands
+     * @return Builder MainProductInterface
+     */
+    public function filterByBrands(array $brands);
+
+    /**
+     * @param MainProductType[] $types
+     * @return Builder MainProductInterface
+     */
+    public function filterByTypes(array $types);
 
 }

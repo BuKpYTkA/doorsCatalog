@@ -8,6 +8,7 @@
 
 namespace App\Repository\MainProductRepository;
 
+use App\Entity\Brand\Brand;
 use App\Entity\Brand\BrandInterface;
 use App\Entity\Image\Image;
 use App\Entity\Image\ImageInterface;
@@ -15,6 +16,8 @@ use App\Entity\MainProduct\MainProduct;
 use App\Entity\MainProduct\MainProductInterface;
 use App\Entity\ProductTypes\MainProductType;
 use App\Repository\ProductRepository\ProductRepository;
+use Illuminate\Database\Eloquent\Collection;
+use PhpParser\Builder;
 
 class MainProductRepository extends ProductRepository implements MainProductRepositoryInterface
 {
@@ -36,62 +39,84 @@ class MainProductRepository extends ProductRepository implements MainProductRepo
 
     /**
      * @param MainProductInterface $mainProduct
-     * @return ImageInterface[]
+     * @return Collection ImageInterface
      */
     public function findImages(MainProductInterface $mainProduct)
     {
-        return $mainProduct->hasMany(Image::class)->get()->all();
+        return $mainProduct->hasMany(Image::class)->get();
     }
 
     /**
      * @param MainProductInterface $mainProduct
-     * @return MainProductType
+     * @return Collection MainProductType
      */
     public function findType(MainProductInterface $mainProduct)
     {
-        return $mainProduct->belongsTo(MainProductType::class, 'type_id')->get()->all();
+        return $mainProduct->belongsTo(MainProductType::class, 'type_id')->get();
     }
 
     /**
      * @param MainProductType $mainProductType
-     * @return MainProductInterface[]|null
+     * @return Collection MainProductInterface
      */
     public function findByType(MainProductType $mainProductType)
     {
-        if (!$mainProductType) {
-            return null;
-        }
-        return $mainProductType->hasMany($this->mainProduct, 'type_id')->get()->all();
+        return $mainProductType->hasMany($this->mainProduct, 'type_id')->get();
     }
 
     /**
      * @param BrandInterface $brand
-     * @return MainProduct[]|null
+     * @param int|null $paginator
+     * @return Collection MainProductInterface
      */
-    public function findByBrand(BrandInterface $brand)
+    public function findByBrand(BrandInterface $brand, int $paginator = null)
     {
-        if (!$brand->getId()) {
-            return null;
+        $builder = $brand->hasMany($this->mainProduct);
+        if ($paginator) {
+            return $builder->paginate($paginator);
         }
-        return $brand->hasMany($this->mainProduct)->get()->all();
+        return $builder->get();
     }
 
     /**
      * @param int $to
      * @param int $from
      * @param int|null $paginator
-     * @return MainProductInterface[]
+     * @return Collection MainProductInterface|LengthAwarePaginator
      */
     public function findByExactPrice(int $to, int $from = 0, int $paginator = null)
     {
+        $builder = $this->mainProduct->where([['price', '>=', $from],['price', '<=', $to]]);
         if ($paginator) {
-            return $this->mainProduct->where('price', '>=', $from)
-                ->where('price', '<=', $to)
-                ->paginate($paginator);
+            return $builder->paginate($paginator);
         }
-        return $this->mainProduct->where('price', '>=', $from)
-            ->where('price', '<=', $to)
-            ->get()->all();
+        return $builder->get();
+    }
+
+    /**
+     * @param BrandInterface[] $brands
+     * @return Builder MainProductInterface
+     */
+    public function filterByBrands(array $brands)
+    {
+        $brandIds = [];
+        foreach ($brands as $brand) {
+            $brandIds[] = $brand->getId();
+        }
+        return $this->mainProduct->whereIn('brand_id', $brandIds);
+    }
+
+    /**
+     * @param MainProductType[] $types
+     * @return Builder MainProductInterface
+     */
+    public function filterByTypes(array $types)
+    {
+        $typesIds = [];
+        foreach ($types as $type) {
+            $typesIds[] = $type->getId();
+        }
+        return $this->mainProduct->whereIn('type_id', $typesIds);
     }
 
 }

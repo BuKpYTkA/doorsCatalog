@@ -12,6 +12,7 @@ use App\Entity\Brand\BrandInterface;
 use App\Entity\Image\ImageInterface;
 use App\Entity\Product\ProductInterface;
 use App\Entity\ProductTypes\MainProductType;
+use Illuminate\Database\Eloquent\Collection;
 
 interface MainProductInterface extends ProductInterface
 {
@@ -47,7 +48,7 @@ interface MainProductInterface extends ProductInterface
     /**
      * @param ImageInterface[] $images
      */
-    public function setImages(array $images);
+    public function setImages(Collection $images);
 
     /**
      * @return BrandInterface

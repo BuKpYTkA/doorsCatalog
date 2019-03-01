@@ -178,6 +178,7 @@ return [
         \App\Providers\RepositoryServiceProvider::class,
         \App\Providers\FactoryServiceProvider::class,
         \App\Providers\ValidationRulesProvider::class,
+        \App\Providers\OutputServiceProvider::class,
 
     ],
 

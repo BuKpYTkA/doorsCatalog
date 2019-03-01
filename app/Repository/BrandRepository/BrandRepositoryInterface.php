@@ -9,8 +9,9 @@
 namespace App\Repository\BrandRepository;
 
 use App\Entity\Brand\BrandInterface;
+use App\Repository\GeneralRepository\GeneralRepositoryInterface;
 
-interface BrandRepositoryInterface
+interface BrandRepositoryInterface extends GeneralRepositoryInterface
 {
     /**
      * @return BrandInterface[]
