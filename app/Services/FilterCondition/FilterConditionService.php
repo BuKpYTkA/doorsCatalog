@@ -8,9 +8,9 @@
 
 namespace App\Services\FilterCondition;
 
-use App\Entity\MainProduct\MainProduct;
 use App\Repository\MainProductRepository\MainProductRepositoryInterface;
 use App\Services\SortCondition\SortConditionServiceInterface;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -40,7 +40,7 @@ class FilterConditionService implements FilterConditionServiceInterface
     private $appends;
 
     /**
-     * @var MainProduct
+     * @var Model
      */
     private $queryBuilder;
 
@@ -69,7 +69,7 @@ class FilterConditionService implements FilterConditionServiceInterface
 
     /**
      * @param Request $request
-     * @return MainProduct|Model|null
+     * @return Model|null
      */
     private function getFiltered(Request $request)
     {

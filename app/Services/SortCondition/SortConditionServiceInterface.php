@@ -8,16 +8,17 @@
 
 namespace App\Services\SortCondition;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 interface SortConditionServiceInterface
 {
     /**
-     * @param $queryBuilder
+     * @param Model $queryBuilder
      * @param Request $request
      * @param array $appends
      * @return LengthAwarePaginator
      */
-    public function sort($queryBuilder, Request $request, array $appends);
+    public function sort(Model $queryBuilder, Request $request, array $appends);
 }

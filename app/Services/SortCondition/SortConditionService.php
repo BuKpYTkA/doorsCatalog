@@ -11,6 +11,8 @@ namespace App\Services\SortCondition;
 use App\Entity\MainProduct\MainProduct;
 use App\Repository\MainProductRepository\MainProductRepositoryInterface;
 use App\Services\PaginationValues\PaginationValues;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -48,12 +50,12 @@ class SortConditionService implements SortConditionServiceInterface
     }
 
     /**
-     * @param $queryBuilder
+     * @param Model $queryBuilder
      * @param Request $request
      * @param array $appends
      * @return LengthAwarePaginator
      */
-    public function sort($queryBuilder, Request $request, array $appends = null)
+    public function sort(Model $queryBuilder, Request $request, array $appends = null)
     {
         $this->setPagination($request);
         if (!$queryBuilder) {
