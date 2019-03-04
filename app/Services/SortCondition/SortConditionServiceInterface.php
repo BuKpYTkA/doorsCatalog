@@ -9,14 +9,15 @@
 namespace App\Services\SortCondition;
 
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 interface SortConditionServiceInterface
 {
     /**
-     * @param $mainProducts
+     * @param $queryBuilder
      * @param Request $request
      * @param array $appends
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @return LengthAwarePaginator
      */
-    public function sort($mainProducts, Request $request, array $appends);
+    public function sort($queryBuilder, Request $request, array $appends);
 }

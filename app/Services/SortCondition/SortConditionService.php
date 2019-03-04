@@ -12,6 +12,7 @@ use App\Entity\MainProduct\MainProduct;
 use App\Repository\MainProductRepository\MainProductRepositoryInterface;
 use App\Services\PaginationValues\PaginationValues;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class SortConditionService implements SortConditionServiceInterface
 {
@@ -34,46 +35,44 @@ class SortConditionService implements SortConditionServiceInterface
     /**
      * @var MainProduct
      */
-    private $mainProductModel;
+    private $queryBuilder;
 
     /**
      * SortConditionService constructor.
      * @param MainProductRepositoryInterface $mainProductRepository
-     * @param MainProduct $mainProductModel
      */
-    public function __construct(MainProductRepositoryInterface $mainProductRepository, MainProduct $mainProductModel)
+    public function __construct(MainProductRepositoryInterface $mainProductRepository)
     {
         $this->mainProductRepository = $mainProductRepository;
-        $this->mainProductModel = $mainProductModel;
+        $this->queryBuilder = $this->mainProductRepository->queryBuilder();
     }
 
     /**
-     * @param $mainProducts
+     * @param $queryBuilder
      * @param Request $request
      * @param array $appends
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @return LengthAwarePaginator
      */
-    public function sort($mainProducts, Request $request, array $appends = null)
+    public function sort($queryBuilder, Request $request, array $appends = null)
     {
         $this->setPagination($request);
-        if (!$mainProducts) {
-            $mainProducts = $this->mainProductModel;
+        if (!$queryBuilder) {
+            $queryBuilder = $this->queryBuilder;
         }
-        $sortMethod = $request->get(self::SORT);
+        $sortMethod = $request->input(self::SORT);
         if ($sortMethod) {
             switch ($sortMethod) {
                 case self::CHEAP:
-                    $sorted = $mainProducts->orderBy('price');
+                    $queryBuilder = $queryBuilder->orderBy('price');
                     break;
                 case self::EXPENSIVE:
-                    $sorted = $mainProducts->orderBy('price', 'desc');
+                    $queryBuilder = $queryBuilder->orderBy('price', 'desc');
                     break;
                 default:
-                    $sorted = $mainProducts->orderBy('price');
+                    $queryBuilder = $queryBuilder->orderBy('price');
             }
-            $mainProducts = $sorted;
         }
-        $paginatedList = $mainProducts->paginate($this->paginator);
+        $paginatedList = $queryBuilder->paginate($this->paginator);
         $paginatedList->appends(self::PAGINATION, $this->paginator);
         $paginatedList->appends(self::SORT, $sortMethod);
         if ($appends) {

@@ -8,14 +8,14 @@
 
 namespace App\Services\FilterCondition;
 
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 interface FilterConditionServiceInterface
 {
     /**
      * @param Request $request
-     * @return Builder|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @return LengthAwarePaginator
      */
     public function filter(Request $request);
 }
