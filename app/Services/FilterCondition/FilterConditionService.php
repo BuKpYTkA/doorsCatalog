@@ -69,7 +69,7 @@ class FilterConditionService implements FilterConditionServiceInterface
 
     /**
      * @param Request $request
-     * @return Model|null
+     * @return Model
      */
     private function getFiltered(Request $request)
     {
@@ -94,9 +94,8 @@ class FilterConditionService implements FilterConditionServiceInterface
                 $this->queryBuilder = $this->queryBuilder->where('price', '>=', $param);
                 $this->appends[self::MIN_PRICE] = $request->get(self::MIN_PRICE);
             }
-            return $this->queryBuilder;
         }
-        return null;
+        return $this->queryBuilder;
     }
 
 }

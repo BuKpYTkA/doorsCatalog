@@ -15,10 +15,10 @@ use Illuminate\Pagination\LengthAwarePaginator;
 interface SortConditionServiceInterface
 {
     /**
-     * @param Model $queryBuilder
+     * @param $queryBuilder
      * @param Request $request
      * @param array $appends
      * @return LengthAwarePaginator
      */
-    public function sort(Model $queryBuilder, Request $request, array $appends);
+    public function sort($queryBuilder, Request $request, array $appends);
 }

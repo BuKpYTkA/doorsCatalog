@@ -5,8 +5,8 @@
         @if(!$products->all())
             <h1>ПО ВАШЕМУ ЗАПРОСУ НИЧЕГО НЕ НАЙДЕНО</h1>
         @else
-            <a href="?sort=expensive">дорогие</a>
-            <a href="?sort=cheap">дешевые</a>
+            <a class="sort" id="expensive" href="#">дорогие</a>
+            <a class="sort" id="cheap" href="#">дешевые</a>
             <table>
                 <tr>
                     <th>Title</th>
@@ -24,7 +24,7 @@
                         <th>{{ $product->getBrandId() }}</th>
                         <th>{{ $product->getTypeId() }}</th>
                         <th><a href="{{ route('admin.edit.main.product', $product->getId()) }}">Edit</a></th>
-                        <th><a href="{{ route('admin.delete.main.product', $product->getId()) }}">Delete</a></th>
+                        <th><a onclick="answer(this)" id="delete" link="{{ route('admin.delete.main.product', $product->getId()) }}" href="#">Delete</a></th>
                     </tr>
                 @endforeach
             </table>
@@ -33,3 +33,42 @@
         <a href="{{ route('admin.create.main.product') }}"><input class="btn btn-primary" type="button" value="Создать"></a>
     </div>
 @endsection
+
+<script type="text/javascript">
+    var url = document.URL;
+
+    function answer (element) {
+        if (confirm('you sure?')) {
+            window.location.href = element.getAttribute('link');
+        }
+    }
+
+    function paramFinder(element) {
+        let paramString = url.split('?')[1];
+        if (paramString) {
+            let params = paramString.split('&');
+            for (var i = 0; i < params.length; i++) {
+                if (params[i].includes(element.getAttribute('class'))) {
+                    return url.replace(params[i], element.getAttribute('class')+'='+element.getAttribute('id'));
+
+                }
+            }
+        }
+        return url+'?sort='+element.getAttribute('id');
+    }
+
+    window.onload = function () {
+
+
+        document.getElementById('cheap').onclick = function () {
+            window.location.href = paramFinder(this);
+        };
+
+        document.getElementById('expensive').onclick = function () {
+            window.location.href = paramFinder(this);
+        };
+
+
+    }
+
+</script>

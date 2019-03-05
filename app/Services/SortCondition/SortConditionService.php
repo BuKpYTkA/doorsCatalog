@@ -8,10 +8,8 @@
 
 namespace App\Services\SortCondition;
 
-use App\Entity\MainProduct\MainProduct;
 use App\Repository\MainProductRepository\MainProductRepositoryInterface;
 use App\Services\PaginationValues\PaginationValues;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -35,32 +33,23 @@ class SortConditionService implements SortConditionServiceInterface
     private $mainProductRepository;
 
     /**
-     * @var MainProduct
-     */
-    private $queryBuilder;
-
-    /**
      * SortConditionService constructor.
      * @param MainProductRepositoryInterface $mainProductRepository
      */
     public function __construct(MainProductRepositoryInterface $mainProductRepository)
     {
         $this->mainProductRepository = $mainProductRepository;
-        $this->queryBuilder = $this->mainProductRepository->queryBuilder();
     }
 
     /**
-     * @param Model $queryBuilder
+     * @param $queryBuilder
      * @param Request $request
      * @param array $appends
      * @return LengthAwarePaginator
      */
-    public function sort(Model $queryBuilder, Request $request, array $appends = null)
+    public function sort($queryBuilder, Request $request, array $appends = null)
     {
         $this->setPagination($request);
-        if (!$queryBuilder) {
-            $queryBuilder = $this->queryBuilder;
-        }
         $sortMethod = $request->input(self::SORT);
         if ($sortMethod) {
             switch ($sortMethod) {
