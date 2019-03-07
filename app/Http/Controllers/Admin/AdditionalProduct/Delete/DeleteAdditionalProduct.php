@@ -28,6 +28,7 @@ class DeleteAdditionalProduct extends Controller
      * @param  \Illuminate\Http\Request $request
      * @param int $id
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
     public function __invoke(Request $request, int $id)
     {

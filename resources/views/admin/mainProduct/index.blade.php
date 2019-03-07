@@ -24,7 +24,7 @@
                         <th>{{ $product->getBrandId() }}</th>
                         <th>{{ $product->getTypeId() }}</th>
                         <th><a href="{{ route('admin.edit.main.product', $product->getId()) }}">Edit</a></th>
-                        <th><a onclick="answer(this)" id="delete" link="{{ route('admin.delete.main.product', $product->getId()) }}" href="#">Delete</a></th>
+                        <th><a onclick="deleteProduct(this)" value="{{ $product->getId() }}" id="delete" link="{{ route('admin.delete.main.product', $product->getId()) }}" href="#">Delete</a></th>
                     </tr>
                 @endforeach
             </table>
@@ -34,12 +34,31 @@
     </div>
 @endsection
 
+
 <script type="text/javascript">
     var url = document.URL;
 
     function answer (element) {
         if (confirm('you sure?')) {
             window.location.href = element.getAttribute('link');
+        }
+    }
+
+    function deleteProduct(element) {
+        let productId = element.getAttribute('value');
+        if (productId) {
+            if (confirm('you sure?')) {
+                $.ajax({
+                    url: element.getAttribute('link'),
+                    context: document.body,
+                    beforeSend: function() {
+                        element.innerHTML = 'WAIT'
+                    },
+                    success: function () {
+                        element.closest('tr').remove();
+                    }
+                });
+            }
         }
     }
 
