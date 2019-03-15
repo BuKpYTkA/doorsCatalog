@@ -9,6 +9,7 @@
 namespace App\Entity\MainProduct;
 
 use App\Entity\Brand\BrandInterface;
+use App\Entity\Image\Image;
 use App\Entity\Image\ImageInterface;
 use App\Entity\Product\Product;
 use App\Entity\ProductTypes\MainProductType;
@@ -130,6 +131,11 @@ class MainProduct extends Product implements MainProductInterface
     public function setType(MainProductType $type)
     {
         $this->type = $type;
+    }
+
+    public function images()
+    {
+        return $this->hasMany(Image::class);
     }
 
 }

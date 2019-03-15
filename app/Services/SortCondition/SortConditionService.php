@@ -64,7 +64,6 @@ class SortConditionService implements SortConditionServiceInterface
             }
         }
         $paginatedList = $queryBuilder->paginate($this->paginator);
-        $paginatedList->appends(self::PAGINATION, $this->paginator);
         $paginatedList->appends(self::SORT, $sortMethod);
         if ($appends) {
             foreach ($appends as $key => $value) {

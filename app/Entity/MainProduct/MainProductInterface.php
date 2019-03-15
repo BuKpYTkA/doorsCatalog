@@ -9,6 +9,7 @@
 namespace App\Entity\MainProduct;
 
 use App\Entity\Brand\BrandInterface;
+use App\Entity\Image\Image;
 use App\Entity\Image\ImageInterface;
 use App\Entity\Product\ProductInterface;
 use App\Entity\ProductTypes\MainProductType;
@@ -69,5 +70,7 @@ interface MainProductInterface extends ProductInterface
      * @param MainProductType $type
      */
     public function setType(MainProductType $type);
+
+    public function images();
 
 }
