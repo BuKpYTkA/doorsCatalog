@@ -64,4 +64,9 @@ interface MainProductRepositoryInterface extends ProductRepositoryInterface
      */
     public function filterByTypes(array $types);
 
+    /**
+     * @return Builder
+     */
+    public function withRelations();
+
 }

@@ -8,11 +8,12 @@
 
 namespace App\Entity\MainProduct;
 
-use App\Entity\Brand\BrandInterface;
+use App\Entity\Brand\Brand;
+use App\Entity\Image\Image;
 use App\Entity\Image\ImageInterface;
 use App\Entity\Product\Product;
 use App\Entity\ProductTypes\MainProductType;
-use Illuminate\Database\Eloquent\Collection;
+use App\Services\RelationsService\MainProductRelations;
 
 /**
  * class Handle
@@ -27,16 +28,6 @@ class MainProduct extends Product implements MainProductInterface
      * @var ImageInterface[]
      */
     private $images;
-
-    /**
-     * @var BrandInterface
-     */
-    private $brand;
-
-    /**
-     * @var MainProductType
-     */
-    private $type;
 
     /**
      * @var array
@@ -67,6 +58,16 @@ class MainProduct extends Product implements MainProductInterface
         $this->brand_id = $brand;
     }
 
+    public function setImages($images)
+    {
+        $this->images = $images;
+    }
+
+    public function getImages()
+    {
+        return $this->images;
+    }
+
     /**
      * @return string|null
      */
@@ -85,51 +86,41 @@ class MainProduct extends Product implements MainProductInterface
     }
 
     /**
-     * @return ImageInterface[]
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function getImages()
+    public function images()
     {
-        return $this->images;
+        return $this->hasMany(Image::class);
     }
 
     /**
-     * @param ImageInterface[] $images
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function setImages(Collection $images)
+    public function brand()
     {
-        $this->images = $images;
+        return $this->belongsTo(Brand::class);
     }
 
     /**
-     * @return BrandInterface
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function getBrand()
+    public function type()
     {
-        return $this->brand;
+        return $this->belongsTo(MainProductType::class);
     }
 
     /**
-     * @return MainProductType
+     * @param $query
+     * @return mixed
      */
-    public function getType()
+    public function scopeActive($query)
     {
-        return $this->type;
+        return $query->where('is_active', 1);
     }
 
-    /**
-     * @param BrandInterface $brand
-     */
-    public function setBrand(BrandInterface $brand)
+    public function scopeWithRelations($query)
     {
-        $this->brand = $brand;
-    }
-
-    /**
-     * @param MainProductType $type
-     */
-    public function setType(MainProductType $type)
-    {
-        $this->type = $type;
+        return $query->with(MainProductRelations::RELATIONS);
     }
 
 }

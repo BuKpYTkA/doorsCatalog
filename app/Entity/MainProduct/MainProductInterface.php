@@ -8,11 +8,7 @@
 
 namespace App\Entity\MainProduct;
 
-use App\Entity\Brand\BrandInterface;
-use App\Entity\Image\ImageInterface;
 use App\Entity\Product\ProductInterface;
-use App\Entity\ProductTypes\MainProductType;
-use Illuminate\Database\Eloquent\Collection;
 
 interface MainProductInterface extends ProductInterface
 {
@@ -27,7 +23,6 @@ interface MainProductInterface extends ProductInterface
      */
     public function getBrandId();
 
-
     /**
      * @param string $description
      * @return void
@@ -41,33 +36,24 @@ interface MainProductInterface extends ProductInterface
     public function setBrandId(int $brand);
 
     /**
-     * @return ImageInterface[]
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function getImages();
+    public function images();
 
     /**
-     * @param ImageInterface[] $images
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function setImages(Collection $images);
+    public function brand();
 
     /**
-     * @return BrandInterface
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function getBrand();
+    public function type();
 
     /**
-     * @return MainProductType
+     * @param $query
+     * @return mixed
      */
-    public function getType();
-
-    /**
-     * @param BrandInterface $brand
-     */
-    public function setBrand(BrandInterface $brand);
-
-    /**
-     * @param MainProductType $type
-     */
-    public function setType(MainProductType $type);
+    public function scopeActive($query);
 
 }

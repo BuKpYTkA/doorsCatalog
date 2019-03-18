@@ -22,7 +22,8 @@ class ImageFactory implements ImageFactoryInterface
     {
         return new Image([
             'main_product_id' => $productId,
-            'url' => $url
+            'url' => $url,
+            'output_url' => str_replace('open', 'uc', $url),
         ]);
     }
 

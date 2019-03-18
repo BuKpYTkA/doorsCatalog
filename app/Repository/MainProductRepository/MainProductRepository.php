@@ -119,4 +119,12 @@ class MainProductRepository extends ProductRepository implements MainProductRepo
         return $this->mainProduct->whereIn('type_id', $typesIds);
     }
 
+    /**
+     * @return Builder
+     */
+    public function withRelations()
+    {
+        return $this->mainProduct->withRelations();
+    }
+
 }

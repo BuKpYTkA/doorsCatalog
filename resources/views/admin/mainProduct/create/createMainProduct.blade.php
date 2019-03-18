@@ -18,10 +18,12 @@
             @endforeach
         </select>
         <label><input type="checkbox" name="isActive">Активность</label>
+        <br>
+        <a id="addBlock" href="#">ADD</a>
+        <a id="deleteBlock" href="#">DELETE</a>
         <div id="image-block" style="display: grid;">
             images:<input class="width" type="text" name="image" value="">
         </div>
-        <a onclick="addInput()">ADD</a>
         <input type="submit" name="create" value="Создать">
     </form>
 @endsection
@@ -33,15 +35,27 @@
 </style>
 
 <script>
-    let counter = 1;
 
-    function addInput() {
-        const form = document.getElementById('image-block');
-        const input = document.createElement('input');
-        input.setAttribute('type', 'text');
-        input.setAttribute('name', `image${counter}`);
-        input.setAttribute('class', 'width');
-        form.appendChild(input);
-        counter++;
+    window.onload = function () {
+
+        document.getElementById('addBlock').onclick = function () {
+            event.preventDefault();
+            const form = document.getElementById('image-block');
+            const input = document.createElement('input');
+            input.setAttribute('type', 'text');
+            input.setAttribute('name', `image[]`);
+            input.setAttribute('class', 'width');
+            form.appendChild(input);
+        };
+
+        document.getElementById('deleteBlock').onclick = function () {
+            event.preventDefault();
+            const form = document.getElementById('image-block');
+            let deletedBlock = form.lastChild;
+            if (deletedBlock && deletedBlock.getAttribute('name') === 'image[]') {
+                form.removeChild(deletedBlock);
+            }
+        };
     }
+
 </script>

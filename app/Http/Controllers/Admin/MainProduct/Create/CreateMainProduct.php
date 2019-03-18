@@ -88,14 +88,12 @@ class CreateMainProduct extends Controller
      */
     public function __invoke(Request $request)
     {
-        $types = $this->typeRepository->findAll();
-        $brands = $this->brandRepository->findAll();
         if ($request->post()) {
             return $this->postRequest($request);
         }
         return view('admin.mainProduct.create.createMainProduct', [
-            'types' => $types,
-            'brands' => $brands
+            'types' => $this->typeRepository->findAll(),
+            'brands' => $this->brandRepository->findAll()
         ]);
     }
 

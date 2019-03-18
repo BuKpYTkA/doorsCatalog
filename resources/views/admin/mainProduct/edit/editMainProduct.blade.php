@@ -1,32 +1,34 @@
 @extends ('layouts.app')
 
 @section('content')
-    <form action="{{ route('admin.edit.main.product', $mainProduct->getId()) }}" method="POST">
+    <form action="{{ route('admin.edit.main.product', $mainProduct['id']) }}" method="POST">
         @csrf
-        title:<input type="text" name="title" value="{{ $mainProduct->getTitle() }}">
+        title:<input type="text" name="title" value="{{ $mainProduct['title'] }}">
         <select name="brand" id="">
             @foreach($brands as $brand)
-                <option {{ $mainProduct->getBrandId() === $brand->getId() ? 'selected="selected"' : '' }} value="{{ $brand->getId() }}">{{ $brand->getTitle() }}</option>
+                <option {{ $mainProduct['brand']['id'] === $brand->getId() ? 'selected="selected"' : '' }} value="{{ $brand->getId() }}">{{ $brand->getTitle() }}</option>
             @endforeach
         </select>
-        price:<input type="text" name="price" value="{{ $mainProduct->getPrice() }}">
-        description:<input type="text" name="description" value="{{ $mainProduct->getDescription() }}">
+        price:<input type="text" name="price" value="{{ $mainProduct['price'] }}">
+        description:<input type="text" name="description" value="{{ $mainProduct['description'] }}">
         <select name="type" id="">
             @foreach($types as $type)
-                <option {{ $mainProduct->getTypeId() === $type->getId() ? 'selected="selected"' : '' }} value="{{ $type->getId() }}">{{ $type->getSingle() }}</option>
+                <option {{ $mainProduct['type']['id'] === $type->getId() ? 'selected="selected"' : '' }} value="{{ $type->getId() }}">{{ $type->getSingle() }}</option>
             @endforeach
         </select>
-        <input {{ $mainProduct->isActive() ? 'checked="checked"' : '' }} type="checkbox" value="isActive">
+        <input id="lol" {{ $mainProduct['is_active'] ? 'checked="checked"' : '' }} type="checkbox" value="isActive">
+        <br>
+        <a href="#" id="addBlock">ADD</a>
+        <a href="#" id="deleteBlock">DELETE</a>
         <div id="image-block" style="display: grid;">
-            @if($mainProduct->getImages())
-                @foreach($mainProduct->getImages() as $image)
-                    <input class="width" name="image-{{ $image->getId() }}" type="text" value="{{ $image->getUrl() }}">
+            @if($mainProduct['images'])
+                @foreach($mainProduct['images'] as $image)
+                    <input class="width" id="" name="image[]" type="text" value="{{ $image['url'] }}">
                 @endforeach
             @else
-                <input class="width" type="text" name="image" value="">
+                <input class="width" type="text" name="image[]" value="">
             @endif
         </div>
-        <a onclick="addInput()">ADD</a>
         <input type="submit" name="save" value="Сохранить">
     </form>
 @endsection
@@ -37,16 +39,28 @@
     }
 </style>
 
-<script>
-    let counter = 1;
+<script type="text/javascript">
 
-    function addInput() {
-        const form = document.getElementById('image-block');
-        const input = document.createElement('input');
-        input.setAttribute('type', 'text');
-        input.setAttribute('name', `image${counter}`);
-        input.setAttribute('class', 'width');
-        form.appendChild(input);
-        counter++;
+    window.onload = function () {
+
+        document.getElementById('addBlock').onclick = function () {
+            event.preventDefault();
+            const form = document.getElementById('image-block');
+            const input = document.createElement('input');
+            input.setAttribute('type', 'text');
+            input.setAttribute('name', `image[]`);
+            input.setAttribute('class', 'width');
+            form.appendChild(input);
+        };
+
+        document.getElementById('deleteBlock').onclick = function () {
+            event.preventDefault();
+            const form = document.getElementById('image-block');
+            let deletedBlock = form.lastChild;
+            if (deletedBlock && deletedBlock.getAttribute('name') === 'image[]') {
+                form.removeChild(deletedBlock);
+            }
+        };
     }
+
 </script>

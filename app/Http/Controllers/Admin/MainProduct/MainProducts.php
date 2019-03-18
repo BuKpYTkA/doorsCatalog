@@ -2,19 +2,12 @@
 
 namespace App\Http\Controllers\Admin\MainProduct;
 
-use App\Entity\Brand\Brand;
-use App\Entity\FeedBack\Feedback;
 use App\Entity\MainProduct\MainProduct;
-use App\Entity\ProductTypes\MainProductType;
-use App\Http\Requests\FilterRequest;
-use App\Repository\BrandRepository\BrandRepository;
-use App\Repository\FeedBackRepository\FeedBackRepository;
+use App\Repository\BrandRepository\BrandRepositoryInterface;
 use App\Repository\MainProductRepository\MainProductRepositoryInterface;
 use App\Repository\ProductTypeRepository\MainTypeRepository;
-use App\Services\FilterCondition\FilterConditionService;
 use App\Services\FilterCondition\FilterConditionServiceInterface;
-use App\Services\SortCondition\SortConditionService;
-use App\Services\PaginationValues\PaginationValues;
+use App\Services\PaginationService\PaginationServiceInterface;
 use App\Services\SortCondition\SortConditionServiceInterface;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -38,40 +31,58 @@ class MainProducts extends Controller
     private $sorterConditionService;
 
     /**
+     * @var PaginationServiceInterface
+     */
+    private $paginationService;
+
+    /**
+     * @var BrandRepositoryInterface
+     */
+    private $brandRepository;
+
+    /**
+     * @var MainTypeRepository
+     */
+    private $typeRepository;
+
+    /**
      * MainProducts constructor.
      * @param MainProductRepositoryInterface $mainProductRepository
      * @param FilterConditionServiceInterface $filterConditionService
      * @param SortConditionServiceInterface $sorterConditionService
+     * @param PaginationServiceInterface $paginationService
+     * @param BrandRepositoryInterface $brandRepository
+     * @param MainTypeRepository $typeRepository
      */
-    public function __construct(MainProductRepositoryInterface $mainProductRepository, FilterConditionServiceInterface $filterConditionService, SortConditionServiceInterface $sorterConditionService)
+    public function __construct(MainProductRepositoryInterface $mainProductRepository, FilterConditionServiceInterface $filterConditionService, SortConditionServiceInterface $sorterConditionService, PaginationServiceInterface $paginationService, BrandRepositoryInterface $brandRepository, MainTypeRepository $typeRepository)
     {
         $this->mainProductRepository = $mainProductRepository;
         $this->filterConditionService = $filterConditionService;
         $this->sorterConditionService = $sorterConditionService;
+        $this->paginationService = $paginationService;
+        $this->brandRepository = $brandRepository;
+        $this->typeRepository = $typeRepository;
     }
 
     /**
      * Handle the incoming request.
      *
-     * @param FilterRequest $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function __invoke(FilterRequest $request)
+    public function __invoke(Request $request)
     {
-        $paginationValues = PaginationValues::PAGINATION_VALUES;
-        $request->getFilter();
-//
-//        $products = $this->filterConditionService->filter($request);
-//        $filtered = $this->sorterConditionService->sort($products, $request);
-//        $links = $filtered['links'];
-//        $products = $filtered['mainProducts'];
-//        $brands = Brand::find([1,2,3])->all();
-//        $products = $this->mainProductRepository->filterByBrands($brands);
-        $products = $this->filterConditionService->filter($request);
+        $filteredProducts = $this->filterConditionService->filter($request);
+        $filteredProductsBuilder = $filteredProducts['builder'];
+        $sorted = $this->sorterConditionService->sort($filteredProductsBuilder, $request, $filteredProducts['appends']);
+        $paginated = $this->paginationService->paginate($sorted['builder'], $request, $sorted['appends']);
         return view('admin.mainProduct.index', [
-            'products' => $products,
-            'paginationValues' => $paginationValues,
-            'links' => $products->links(),
+            'products' => $paginated->getCollection()->toArray(),
+            'links' => $paginated->links(),
+            'brands' => $this->brandRepository->findAll()->toArray(),
+            'types' => $this->typeRepository->findAll()->toArray(),
+            'request' => $request->input(),
+            'maxPrice' => $filteredProductsBuilder->get()->max('price'),
         ]);
     }
 

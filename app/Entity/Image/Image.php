@@ -17,13 +17,15 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $id
  * @property int $main_product_id
  * @property string $url
+ * @property string $output_url
  */
 class Image extends Model implements ImageInterface
 {
 
     protected $fillable = [
         'main_product_id',
-        'url'
+        'url',
+        'output_url',
     ];
 
     /**
@@ -63,7 +65,7 @@ class Image extends Model implements ImageInterface
      */
     public function getGoogleUrl()
     {
-        return str_replace('open', 'uc', $this->url);
+        return $this->output_url;
     }
 
     /**

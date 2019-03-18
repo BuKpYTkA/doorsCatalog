@@ -8,16 +8,13 @@
 
 namespace App\Services\FilterCondition;
 
-
-use App\Entity\ProductTypes\MainProductType;
-use App\Repository\BrandRepository\BrandRepositoryInterface;
 use App\Repository\MainProductRepository\MainProductRepositoryInterface;
-use App\Repository\ProductTypeRepository\MainTypeRepository;
-use App\Services\PaginationValues\PaginationValues;
-use App\Services\SortCondition\SortConditionService;
+use App\Services\RelationsService\MainProductRelations;
 use App\Services\SortCondition\SortConditionServiceInterface;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class FilterConditionService implements FilterConditionServiceInterface
 {
@@ -25,17 +22,13 @@ class FilterConditionService implements FilterConditionServiceInterface
     const PAGINATION_GETTER = 'per_page';
     const BRAND = 'brand';
     const TYPE = 'type';
-    const PRICE = 'price';
+    const MAX_PRICE = 'max_price';
+    const MIN_PRICE = 'min_price';
 
     /**
      * @var MainProductRepositoryInterface
      */
     private $mainProductRepository;
-
-    /**
-     * @var BrandRepositoryInterface
-     */
-    private $brandRepository;
 
     /**
      * @var SortConditionServiceInterface
@@ -45,79 +38,77 @@ class FilterConditionService implements FilterConditionServiceInterface
     /**
      * @var array
      */
-    private $params;
+    private $appends = [];
 
     /**
-     * @var array
+     * @var Model
      */
-    private $appends;
-
-    /**
-     * @var MainTypeRepository
-     */
-    private $typeRepository;
+    private $queryBuilder;
 
     /**
      * FilterConditionService constructor.
      * @param MainProductRepositoryInterface $mainProductRepository
-     * @param BrandRepositoryInterface $brandRepository
-     * @param SortConditionServiceInterface $sortConditionService
-     * @param MainTypeRepository $typeRepository
      */
-    public function __construct(MainProductRepositoryInterface $mainProductRepository, BrandRepositoryInterface $brandRepository, SortConditionServiceInterface $sortConditionService, MainTypeRepository $typeRepository)
+    public function __construct(MainProductRepositoryInterface $mainProductRepository)
     {
         $this->mainProductRepository = $mainProductRepository;
-        $this->brandRepository = $brandRepository;
-        $this->sortConditionService = $sortConditionService;
-        $this->typeRepository = $typeRepository;
+        $this->queryBuilder = $this->mainProductRepository->queryBuilder();
     }
 
 
     /**
      * @param Request $request
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @param bool|null $isActive
+     * @return array
      */
-    public function filter(Request $request)
+    public function filter(Request $request, bool $isActive = null)
     {
-        $this->filterByBrand($request);
-        $products = null;
-        if ($this->params) {
-            $products = $this->mainProductRepository->findWhere($this->params);
+        $queryBuilder = $this->getFiltered($request);
+        if ($isActive) {
+            $queryBuilder = $queryBuilder->active();
         }
-        return $this->sortConditionService->sort($products, $request, $this->appends);
+        $queryBuilder = $queryBuilder->with(MainProductRelations::RELATIONS);
+        return [
+            'builder' => $queryBuilder,
+            'appends' => $this->appends,
+        ];
     }
 
     /**
      * @param Request $request
+     * @return Model
      */
-    private function filterByBrand(Request $request)
+    private function getFiltered(Request $request)
     {
-        $brandIds = explode(',',$request->input(self::BRAND));
-        if ($brandIds[0]) {
-            foreach ($brandIds as $id) {
-                if ($this->brandRepository->find($id)) {
-                    $this->params[self::BRAND . '_id'][] = $id;
+        $params = [];
+        if ($request->input()) {
+            if ($request->has(self::BRAND)) {
+                foreach ($request->input(self::BRAND) as $brand) {
+                    $params[self::BRAND][] = $brand;
                 }
+                $this->queryBuilder = $this->queryBuilder->whereIn(self::BRAND . '_id', $params[self::BRAND]);
+                $this->appends[self::BRAND] = $request->get(self::BRAND);
             }
-            $this->appends[self::BRAND] = $request->get(self::BRAND);
-        }
-        $this->filterByType($request);
-    }
-
-    /**
-     * @param Request $request
-     */
-    private function filterByType(Request $request)
-    {
-        $typeIds = explode(',',$request->get(self::TYPE));
-        if ($typeIds[0]) {
-            foreach ($typeIds as $id) {
-                if ($this->typeRepository->find($id)) {
-                    $this->params[self::TYPE . '_id'][] = $id;
+            if ($request->has(self::TYPE)) {
+                foreach ($request->input(self::TYPE) as $type) {
+                    $params[self::TYPE][] = $type;
                 }
+                $this->queryBuilder = $this->queryBuilder->whereIn(self::TYPE . '_id', $params[self::TYPE]);
+                $this->appends[self::TYPE] = $request->get(self::TYPE);
             }
-            $this->appends[self::TYPE] = $request->get(self::TYPE);
+            if ($request->has(self::MAX_PRICE)) {
+                $param = $request->get(self::MAX_PRICE) ?? 999999;
+                $this->queryBuilder = $this->queryBuilder->where('price', '<=', $param);
+                $this->appends[self::MAX_PRICE] = $request->get(self::MAX_PRICE);
+
+            }
+            if ($request->has(self::MIN_PRICE)) {
+                $param = $request->get(self::MIN_PRICE) ?? 0;
+                $this->queryBuilder = $this->queryBuilder->where('price', '>=', $param);
+                $this->appends[self::MIN_PRICE] = $request->get(self::MIN_PRICE);
+            }
         }
+        return $this->queryBuilder;
     }
 
 }

@@ -8,94 +8,56 @@
 
 namespace App\Services\SortCondition;
 
-use App\Entity\MainProduct\MainProduct;
-use App\Repository\MainProductRepository\MainProductRepositoryInterface;
-use App\Services\PaginationValues\PaginationValues;
 use Illuminate\Http\Request;
 
 class SortConditionService implements SortConditionServiceInterface
 {
 
-    const PAGINATION = 'per_page';
     const SORT = 'sort';
     const CHEAP = 'cheap';
     const EXPENSIVE = 'expensive';
+    const TITLE = 'title';
+    const NEWEST = 'newest';
+    const OLDEST = 'oldest';
 
     /**
-     * @var int
-     */
-    private $paginator;
-
-    /**
-     * @var MainProductRepositoryInterface
-     */
-    private $mainProductRepository;
-
-    /**
-     * @var MainProduct
-     */
-    private $mainProductModel;
-
-    /**
-     * SortConditionService constructor.
-     * @param MainProductRepositoryInterface $mainProductRepository
-     * @param MainProduct $mainProductModel
-     */
-    public function __construct(MainProductRepositoryInterface $mainProductRepository, MainProduct $mainProductModel)
-    {
-        $this->mainProductRepository = $mainProductRepository;
-        $this->mainProductModel = $mainProductModel;
-    }
-
-    /**
-     * @param $mainProducts
+     * @param $queryBuilder
      * @param Request $request
      * @param array $appends
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @return array
      */
-    public function sort($mainProducts, Request $request, array $appends = null)
+    public function sort($queryBuilder, Request $request, array $appends = [])
     {
-        $this->setPagination($request);
-        if (!$mainProducts) {
-            $mainProducts = $this->mainProductModel;
-        }
-        $sortMethod = $request->get(self::SORT);
+        $sortMethod = $request->input(self::SORT);
         if ($sortMethod) {
             switch ($sortMethod) {
                 case self::CHEAP:
-                    $sorted = $mainProducts->orderBy('price');
+                    $queryBuilder = $queryBuilder->orderBy('price');
                     break;
                 case self::EXPENSIVE:
-                    $sorted = $mainProducts->orderBy('price', 'desc');
+                    $queryBuilder = $queryBuilder->orderBy('price', 'desc');
+                    break;
+                case self::TITLE:
+                    $queryBuilder = $queryBuilder->orderBy('title');
+                    break;
+                case self::NEWEST:
+                    $queryBuilder = $queryBuilder->orderBy('created_at');
+                    break;
+                case self::OLDEST:
+                    $queryBuilder = $queryBuilder->orderBy('created_at', 'desc');
                     break;
                 default:
-                    $sorted = $mainProducts->orderBy('price');
+                    $queryBuilder = $queryBuilder->orderBy('created_at');
             }
-            $mainProducts = $sorted;
+            $appends[self::SORT] = $sortMethod;
         }
-        $paginatedList = $mainProducts->paginate($this->paginator);
-        $paginatedList->appends(self::PAGINATION, $this->paginator);
-        $paginatedList->appends(self::SORT, $sortMethod);
-        if ($appends) {
-            foreach ($appends as $key => $value) {
-                $paginatedList->appends($key, $value);
-            }
+        else {
+            $queryBuilder = $queryBuilder->orderBy('created_at');
         }
-        return $paginatedList;
-    }
-
-    /**
-     * @param Request $request
-     * @return void
-     */
-    private function setPagination(Request $request)
-    {
-        $paginator = (int)$request->get(self::PAGINATION);
-        if ($paginator && in_array($paginator, PaginationValues::PAGINATION_VALUES)) {
-            $this->paginator = $paginator;
-        } else {
-            $this->paginator = PaginationValues::DEFAULT;
-        }
+        return [
+            'builder' => $queryBuilder,
+            'appends' => $appends
+        ];
     }
 
 }

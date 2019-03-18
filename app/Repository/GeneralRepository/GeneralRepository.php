@@ -8,6 +8,7 @@
 
 namespace App\Repository\GeneralRepository;
 
+use App\Services\RelationsService\MainProductRelations;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
@@ -77,24 +78,6 @@ abstract class GeneralRepository implements GeneralRepositoryInterface
         $model->delete();
     }
 
-    /**
-     * @param array $params
-     * @return Collection
-     */
-    public function findWhere(array $params)
-    {
-        $result = null;
-        foreach ($params as $key => $value)
-        {
-            if (!$result) {
-                $result = $this->model->whereIn($key, $value);
-            }
-            else {
-                $result->whereIn($key, $value);
-            }
-        }
-        return $result;
-    }
 
     /**
      * @param array $ids
@@ -112,6 +95,24 @@ abstract class GeneralRepository implements GeneralRepositoryInterface
     public function findByTitle(string $title)
     {
         return $this->model->where('title', $title)->firstOrFail();
+    }
+
+    /**
+     * @param string $column
+     * @param array $params
+     * @return mixed
+     */
+    public function where(string $column, array $params)
+    {
+        return $this->model->whereIn($column, $params);
+    }
+
+    /**
+     * @return Model
+     */
+    public function queryBuilder()
+    {
+        return $this->model;
     }
 
 }

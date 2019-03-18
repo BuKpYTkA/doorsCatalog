@@ -53,4 +53,9 @@ interface ProductInterface
      */
     public function setTypeId(int $type_id);
 
+    /**
+     * @return int
+     */
+    public function getId(): int;
+
 }

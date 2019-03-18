@@ -2,16 +2,16 @@
 /**
  * Created by PhpStorm.
  * User: a.neposedov
- * Date: 01.03.2019
- * Time: 14:37
+ * Date: 18.03.2019
+ * Time: 16:16
  */
 
-namespace App\Services\SortCondition;
+namespace App\Services\PaginationService;
 
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-interface SortConditionServiceInterface
+interface PaginationServiceInterface
 {
     /**
      * @param $queryBuilder
@@ -19,5 +19,5 @@ interface SortConditionServiceInterface
      * @param array $appends
      * @return LengthAwarePaginator
      */
-    public function sort($queryBuilder, Request $request, array $appends = []);
+    public function paginate($queryBuilder, Request $request, array $appends = []);
 }

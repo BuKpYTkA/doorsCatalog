@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin\MainProduct\GetFiltered;
 
 use App\Services\FilterCondition\FilterConditionServiceInterface;
-use App\Services\PaginationValues\PaginationValues;
+use App\Services\PaginationService\PaginationValues;
 use App\Services\SortCondition\SortConditionServiceInterface;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
