@@ -40,6 +40,7 @@ class DeleteMainProduct extends Controller
                 $this->mainProductRepository->delete($product);
             }
         }
+        return $this->successResult();
         return redirect( route('admin.show.main.products'));
     }
 

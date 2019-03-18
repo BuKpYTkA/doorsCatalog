@@ -1,0 +1,16 @@
+.you {
+  background-color: red;
+}
+
+.you .fech {
+  background-color: yellow;
+}
+
+.you .fech .me {
+  background-color: pink;
+}
+
+.you .fech .sao {
+  display: inline;
+}
+

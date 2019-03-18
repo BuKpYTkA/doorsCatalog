@@ -1,5 +1,13 @@
 @extends('layouts.app')
 
+@section('style')
+    <link href="{{ asset('css/admin/adminMainProducts.css') }}" rel="stylesheet">
+@endsection
+
+@section('script')
+    <script src="{{ asset('js/admin/admin_main.js') }}" defer></script>
+@endsection
+
 @section('content')
     <div class="container">
         <div class="row">
@@ -39,19 +47,19 @@
                 @else
                     <label>сортировка
                     <select onchange="changeFunc(this)" name="" id="">
-                        <option {{ array_key_exists('sort', $request) && $request['sort'] == 'expensive' ? 'selected=selected' : '' }} id="expensive"
+                        <option {{ isset($request['sort']) ? $request['sort'] == 'expensive' ? 'selected' : '' : '' }} data-type="expensive"
                                 class="sort">дорогие
                         </option>
-                        <option {{ array_key_exists('sort', $request) && $request['sort'] == 'cheap' ? 'selected=selected' : '' }} id="cheap" class="sort">
+                        <option {{ array_key_exists('sort', $request) && $request['sort'] == 'cheap' ? 'selected' : '' }} data-type="cheap" class="sort">
                             дешевые
                         </option>
-                        <option {{ array_key_exists('sort', $request) && $request['sort'] == 'title' ? 'selected=selected' : '' }} id="title" class="sort">
+                        <option {{ array_key_exists('sort', $request) && $request['sort'] == 'title' ? 'selected' : '' }} data-type="title" class="sort">
                             название
                         </option>
-                        <option {{ (array_key_exists('sort', $request) && $request['sort'] == 'newest') || (!array_key_exists('sort', $request)) ? 'selected=selected' : '' }} id="newest" class="sort">
+                        <option {{ (array_key_exists('sort', $request) && $request['sort'] == 'newest') || (!array_key_exists('sort', $request)) ? 'selected=selected' : '' }} data-type="newest" class="sort">
                             сначала новые
                         </option>
-                        <option {{ array_key_exists('sort', $request) && $request['sort'] == 'oldest' ? 'selected=selected' : '' }} id="oldest" class="sort">
+                        <option {{ array_key_exists('sort', $request) && $request['sort'] == 'oldest' ? 'selected' : '' }} data-type="oldest" class="sort">
                             сначала старые
                         </option>
                     </select></label>
@@ -65,17 +73,17 @@
                             <th>delete</th>
                             <th>images</th>
                         </tr>
-                        @foreach($products as $product)
-                            <tr>
-                                <th>{{ $product['title'] }}</th>
-                                <th>{{ $product['price'] }}</th>
-                                <th>{{ $product['brand_id'] }}</th>
-                                <th>{{ $product['type_id'] }}</th>
-                                <th><a href="{{ route('admin.edit.main.product', $product['id']) }}">Edit</a></th>
-                                <th><a onclick="deleteProduct(this)" value="{{ $product['id'] }}" id="delete"
-                                       href="{{ route('admin.delete.main.product', $product['id']) }}">Delete</a></th>
-                            </tr>
-                        @endforeach
+                        {{--@foreach($products as $product)--}}
+                            {{--<tr>--}}
+                                {{--<th>{{ $product['title'] }}</th>--}}
+                                {{--<th>{{ $product['price'] }}</th>--}}
+                                {{--<th>{{ $product['brand_id'] }}</th>--}}
+                                {{--<th>{{ $product['type_id'] }}</th>--}}
+                                {{--<th><a href="{{ route('admin.edit.main.product', $product['id']) }}">Edit</a></th>--}}
+                                {{--<th><a onclick="deleteProduct(this)" value="{{ $product['id'] }}" id="delete"--}}
+                                       {{--href="{{ route('admin.delete.main.product', $product['id']) }}">Delete</a></th>--}}
+                            {{--</tr>--}}
+                        {{--@endforeach--}}
                     </table>
                 @endif
                 {{ $links }}
@@ -88,11 +96,11 @@
 @endsection
 
 <script type="text/javascript">
-    var url = document.URL;
+
 
     function deleteProduct(element) {
         event.preventDefault();
-        let productId = element.getAttribute('value');
+        const productId = element.getAttribute('value');
         if (productId) {
             if (confirm('you sure?')) {
                 $.ajax({
@@ -106,26 +114,5 @@
         }
     }
 
-    function changeFunc(element) {
-        let selectedBox = element.options[element.selectedIndex];
-        sorter(selectedBox);
-    }
 
-    function sorter(element) {
-        event.preventDefault();
-        let getParam = element.getAttribute('class');
-        let paramString = url.split('?')[1];
-        let addedString = getParam + '=' + element.getAttribute('id');
-        if (paramString) {
-            let params = paramString.split('&');
-            for (var i = 0; i < params.length; i++) {
-                if (params[i].includes(getParam)) {
-                    return window.location.href = url.replace(params[i], addedString);
-                }
-            }
-            console.log(params);
-            return window.location.href = url + '&' + addedString;
-        }
-        return window.location.href = url + '?' + addedString;
-    }
 </script>
