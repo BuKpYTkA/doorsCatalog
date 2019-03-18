@@ -26,7 +26,7 @@
         <a href="{{ route('admin.create.main.product') }}"><input type="button" value="Создать"></a>
         @foreach($paginationValues as $value)
             <br>
-            <a href="?per_page={{ $value }}">{{ $value }}</a>
+            <a href="{{ route('admin.show.main.products', ['per_page' => $value, 'fuck' => 'off']) }}">{{ $value }}</a>
         @endforeach
         <br>
         @foreach($products as $product)

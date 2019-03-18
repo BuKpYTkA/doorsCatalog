@@ -6,6 +6,7 @@ use App\Entity\Brand\Brand;
 use App\Entity\FeedBack\Feedback;
 use App\Entity\MainProduct\MainProduct;
 use App\Entity\ProductTypes\MainProductType;
+use App\Http\Requests\FilterRequest;
 use App\Repository\BrandRepository\BrandRepository;
 use App\Repository\FeedBackRepository\FeedBackRepository;
 use App\Repository\MainProductRepository\MainProductRepositoryInterface;
@@ -52,12 +53,13 @@ class MainProducts extends Controller
     /**
      * Handle the incoming request.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param FilterRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function __invoke(Request $request)
+    public function __invoke(FilterRequest $request)
     {
         $paginationValues = PaginationValues::PAGINATION_VALUES;
+        $request->getFilter();
 //
 //        $products = $this->filterConditionService->filter($request);
 //        $filtered = $this->sorterConditionService->sort($products, $request);

@@ -11,15 +11,6 @@ namespace App\Services\PaginationValues;
 
 class PaginationValues
 {
-
-    const PAGINATION_VALUES = [
-        'TWO' => self::TWO,
-        'FIVE' => self::FIVE,
-        'DEFAULT' => self::DEFAULT,
-        'TWENTY_FIVE' => self::TWENTY_FIVE,
-        'FIFTY' => self::FIFTY,
-    ];
-
     const TWO = 2;
 
     const FIVE = 5;
@@ -29,5 +20,13 @@ class PaginationValues
     const FIFTY = 50;
 
     const TWENTY_FIVE = 25;
+
+    const PAGINATION_VALUES = [
+        'TWO' => self::TWO,
+        'FIVE' => self::FIVE,
+        'DEFAULT' => self::DEFAULT,
+        'TWENTY_FIVE' => self::TWENTY_FIVE,
+        'FIFTY' => self::FIFTY,
+    ];
 
 }

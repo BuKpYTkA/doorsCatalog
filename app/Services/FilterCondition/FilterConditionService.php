@@ -92,7 +92,7 @@ class FilterConditionService implements FilterConditionServiceInterface
      */
     private function filterByBrand(Request $request)
     {
-        $brandIds = explode(',',$request->get(self::BRAND));
+        $brandIds = explode(',',$request->input(self::BRAND));
         if ($brandIds[0]) {
             foreach ($brandIds as $id) {
                 if ($this->brandRepository->find($id)) {
