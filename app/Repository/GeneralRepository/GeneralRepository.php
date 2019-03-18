@@ -8,6 +8,7 @@
 
 namespace App\Repository\GeneralRepository;
 
+use App\Services\RelationsService\MainProductRelations;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 

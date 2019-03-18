@@ -9,6 +9,7 @@
 namespace App\Services\FilterCondition;
 
 use App\Repository\MainProductRepository\MainProductRepositoryInterface;
+use App\Services\RelationsService\MainProductRelations;
 use App\Services\SortCondition\SortConditionServiceInterface;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -37,7 +38,7 @@ class FilterConditionService implements FilterConditionServiceInterface
     /**
      * @var array
      */
-    private $appends;
+    private $appends = [];
 
     /**
      * @var Model
@@ -47,24 +48,30 @@ class FilterConditionService implements FilterConditionServiceInterface
     /**
      * FilterConditionService constructor.
      * @param MainProductRepositoryInterface $mainProductRepository
-     * @param SortConditionServiceInterface $sortConditionService
      */
-    public function __construct(MainProductRepositoryInterface $mainProductRepository, SortConditionServiceInterface $sortConditionService)
+    public function __construct(MainProductRepositoryInterface $mainProductRepository)
     {
         $this->mainProductRepository = $mainProductRepository;
-        $this->sortConditionService = $sortConditionService;
         $this->queryBuilder = $this->mainProductRepository->queryBuilder();
     }
 
 
     /**
      * @param Request $request
-     * @return LengthAwarePaginator
+     * @param bool|null $isActive
+     * @return array
      */
-    public function filter(Request $request)
+    public function filter(Request $request, bool $isActive = null)
     {
         $queryBuilder = $this->getFiltered($request);
-        return $this->sortConditionService->sort($queryBuilder, $request, $this->appends);
+        if ($isActive) {
+            $queryBuilder = $queryBuilder->active();
+        }
+        $queryBuilder = $queryBuilder->with(MainProductRelations::RELATIONS);
+        return [
+            'builder' => $queryBuilder,
+            'appends' => $this->appends,
+        ];
     }
 
     /**

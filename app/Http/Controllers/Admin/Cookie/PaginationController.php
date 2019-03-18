@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin\Cookie;
 
-use App\Services\PaginationValues\PaginationValues;
+use App\Services\PaginationService\PaginationValues;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Cookie;

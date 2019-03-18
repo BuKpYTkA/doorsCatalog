@@ -15,7 +15,8 @@ interface FilterConditionServiceInterface
 {
     /**
      * @param Request $request
+     * @param bool|null $isActive
      * @return LengthAwarePaginator
      */
-    public function filter(Request $request);
+    public function filter(Request $request, bool $isActive = null);
 }

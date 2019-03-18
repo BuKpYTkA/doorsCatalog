@@ -6,7 +6,7 @@
  * Time: 17:57
  */
 
-namespace App\Services\PaginationValues;
+namespace App\Services\PaginationService;
 
 
 class PaginationValues
@@ -24,7 +24,7 @@ class PaginationValues
 
     const FIVE = 5;
 
-    const DEFAULT = 10;
+    const DEFAULT = 50;
 
     const FIFTY = 50;
 

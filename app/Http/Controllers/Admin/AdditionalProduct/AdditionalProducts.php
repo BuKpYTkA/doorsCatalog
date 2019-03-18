@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin\AdditionalProduct;
 
 use App\Repository\AdditionalProductRepository\AdditionalProductRepositoryInterface;
 use App\Repository\ProductTypeRepository\AdditionalTypeRepository;
-use App\Services\PaginationValues\PaginationValues;
+use App\Services\PaginationService\PaginationValues;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
