@@ -10,11 +10,8 @@ namespace App\Services\FilterCondition;
 
 use App\Repository\MainProductRepository\MainProductRepositoryInterface;
 use App\Services\RelationsService\MainProductRelations;
-use App\Services\SortCondition\SortConditionServiceInterface;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
-use Illuminate\Pagination\LengthAwarePaginator;
 
 class FilterConditionService implements FilterConditionServiceInterface
 {
@@ -29,11 +26,6 @@ class FilterConditionService implements FilterConditionServiceInterface
      * @var MainProductRepositoryInterface
      */
     private $mainProductRepository;
-
-    /**
-     * @var SortConditionServiceInterface
-     */
-    private $sortConditionService;
 
     /**
      * @var array
@@ -82,14 +74,14 @@ class FilterConditionService implements FilterConditionServiceInterface
     {
         $params = [];
         if ($request->input()) {
-            if ($request->has(self::BRAND)) {
+            if ($request->has(self::BRAND) && !empty($request->input(self::BRAND))) {
                 foreach ($request->input(self::BRAND) as $brand) {
                     $params[self::BRAND][] = $brand;
                 }
                 $this->queryBuilder = $this->queryBuilder->whereIn(self::BRAND . '_id', $params[self::BRAND]);
                 $this->appends[self::BRAND] = $request->get(self::BRAND);
             }
-            if ($request->has(self::TYPE)) {
+            if ($request->has(self::TYPE) && !empty($request->input(self::TYPE))) {
                 foreach ($request->input(self::TYPE) as $type) {
                     $params[self::TYPE][] = $type;
                 }

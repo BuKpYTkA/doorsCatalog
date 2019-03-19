@@ -9,14 +9,13 @@
 namespace App\Services\FilterCondition;
 
 use Illuminate\Http\Request;
-use Illuminate\Pagination\LengthAwarePaginator;
 
 interface FilterConditionServiceInterface
 {
     /**
      * @param Request $request
      * @param bool|null $isActive
-     * @return LengthAwarePaginator
+     * @return array
      */
     public function filter(Request $request, bool $isActive = null);
 }

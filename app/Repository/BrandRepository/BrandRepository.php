@@ -12,7 +12,6 @@ use App\Entity\Brand\Brand;
 use App\Entity\Brand\BrandInterface;
 use App\Entity\MainProduct\MainProduct;
 use App\Repository\GeneralRepository\GeneralRepository;
-use Illuminate\Database\Eloquent\Collection;
 
 class BrandRepository extends GeneralRepository implements BrandRepositoryInterface
 {

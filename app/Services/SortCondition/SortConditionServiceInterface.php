@@ -9,7 +9,6 @@
 namespace App\Services\SortCondition;
 
 use Illuminate\Http\Request;
-use Illuminate\Pagination\LengthAwarePaginator;
 
 interface SortConditionServiceInterface
 {
@@ -17,7 +16,7 @@ interface SortConditionServiceInterface
      * @param $queryBuilder
      * @param Request $request
      * @param array $appends
-     * @return LengthAwarePaginator
+     * @return array
      */
     public function sort($queryBuilder, Request $request, array $appends = []);
 }

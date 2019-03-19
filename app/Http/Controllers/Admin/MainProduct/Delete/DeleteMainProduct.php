@@ -34,13 +34,16 @@ class DeleteMainProduct extends Controller
      */
     public function __invoke(Request $request, int $id)
     {
-        if ($id) {
-            $product = $this->mainProductRepository->findOrFail($id);
-            if ($product) {
-                $this->mainProductRepository->delete($product);
+        if ($request->post()) {
+            if ($id === intval($request->input('productId'))) {
+                $product = $this->mainProductRepository->findOrFail($id);
+                if ($product) {
+                    $this->mainProductRepository->delete($product);
+                }
+                $products = $this->mainProductRepository->withRelations()->get();
+                return $this->successResult($products->toArray());
             }
         }
-        return $this->successResult();
         return redirect( route('admin.show.main.products'));
     }
 

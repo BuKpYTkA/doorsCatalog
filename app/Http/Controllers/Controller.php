@@ -13,6 +13,6 @@ class Controller extends BaseController
 
     public function successResult(array $data = [])
     {
-        return response($data)->json();
+        return response()->json($data);
     }
 }
