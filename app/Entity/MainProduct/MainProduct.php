@@ -14,6 +14,7 @@ use App\Entity\Image\ImageInterface;
 use App\Entity\Product\Product;
 use App\Entity\ProductTypes\MainProductType;
 use App\Services\RelationsService\MainProductRelations;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * class Handle
@@ -98,15 +99,15 @@ class MainProduct extends Product implements MainProductInterface
      */
     public function brand()
     {
-        return $this->belongsTo(Brand::class);
+        return $this->belongsTo(Brand::class, 'brand_id')->first();
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return MainProductType|Model|null
      */
     public function type()
     {
-        return $this->belongsTo(MainProductType::class);
+        return $this->belongsTo(MainProductType::class, 'type_id')->first();
     }
 
     /**
