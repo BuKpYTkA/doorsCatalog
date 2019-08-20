@@ -25,9 +25,10 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/', 'Admin\MainProduct\MainProducts')->name('admin.show.main.products');
             Route::match(['get', 'post'],'/axio', 'Admin\MainProduct\MainProductsAxio')->name('admin.show.main.products.axio');
             Route::get('filter', 'Admin\MainProduct\GetFiltered\GetFilteredMainProducts')->name('admin.show.filtered.main.products');
-            Route::match(['get', 'post'],'delete/{id}', 'Admin\MainProduct\Delete\DeleteMainProduct')->name('admin.delete.main.product');
+            Route::match(['get', 'post'],'delete', 'Admin\MainProduct\Delete\DeleteMainProduct')->name('admin.delete.main.product');
             Route::match(['get', 'post'],'create', 'Admin\MainProduct\Create\CreateMainProduct')->name('admin.create.main.product');
             Route::match(['get', 'post'],'edit/{id}', 'Admin\MainProduct\Edit\EditMainProduct')->name('admin.edit.main.product');
+            Route::post('create_brand', 'Admin\Brand\Create\CreateBrand')->name('admin.create.brand');
         });
         Route::prefix('additional_products')->group(function () {
             Route::get('/', 'Admin\AdditionalProduct\AdditionalProducts')->name('admin.show.additional.products');

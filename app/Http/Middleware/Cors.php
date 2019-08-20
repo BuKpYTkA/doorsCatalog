@@ -15,8 +15,10 @@ class Cors
      */
     public function handle($request, Closure $next)
     {
-        return $next($request)
-            ->header('Access-Control-Allow-Origin', '*')
-            ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+        $key = env('API_KEY');
+        if ($request->header('x-api-key') === env('API_KEY')) {
+            return $next($request);
+        }
+        abort(404);
     }
 }

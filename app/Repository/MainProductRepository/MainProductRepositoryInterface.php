@@ -10,10 +10,12 @@ namespace App\Repository\MainProductRepository;
 
 use App\Entity\Brand\Brand;
 use App\Entity\Brand\BrandInterface;
+use App\Entity\MainProduct\MainProduct;
 use App\Entity\MainProduct\MainProductInterface;
 use App\Entity\ProductTypes\MainProductType;
 use App\Repository\ProductRepository\ProductRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 use PhpParser\Builder;
 
 interface MainProductRepositoryInterface extends ProductRepositoryInterface
@@ -65,7 +67,7 @@ interface MainProductRepositoryInterface extends ProductRepositoryInterface
     public function filterByTypes(array $types);
 
     /**
-     * @return Builder
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function withRelations();
 

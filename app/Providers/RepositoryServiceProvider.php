@@ -9,6 +9,7 @@ use App\Repository\BrandRepository\BrandRepository;
 use App\Repository\BrandRepository\BrandRepositoryInterface;
 use App\Repository\ImageRepository\ImageRepository;
 use App\Repository\ImageRepository\ImageRepositoryInterface;
+use App\Repository\MainProductRepository\CachedMainProductRepository;
 use App\Repository\MainProductRepository\MainProductRepository;
 use App\Repository\MainProductRepository\MainProductRepositoryInterface;
 use App\Repository\ProductTypeRepository\MainTypeRepository;
@@ -27,6 +28,9 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->singleton(AdditionalProductRepositoryInterface::class, AdditionalProductRepository::class);
         $this->app->singleton(ImageRepositoryInterface::class, ImageRepository::class);
         $this->app->singleton(BrandRepositoryInterface::class, BrandRepository::class);
+//        $this->app->when(CachedMainProductRepository::class)
+//            ->needs(MainProductRepositoryInterface::class)
+//            ->give(MainProductRepository::class);
     }
 
     /**

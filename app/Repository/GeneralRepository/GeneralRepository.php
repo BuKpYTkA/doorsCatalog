@@ -78,7 +78,6 @@ abstract class GeneralRepository implements GeneralRepositoryInterface
         $model->delete();
     }
 
-
     /**
      * @param array $ids
      * @return Collection
@@ -86,15 +85,6 @@ abstract class GeneralRepository implements GeneralRepositoryInterface
     public function whereIn(array $ids)
     {
         return $this->model->whereIn('id', $ids)->get();
-    }
-
-    /**
-     * @param string $title
-     * @return Model|404
-     */
-    public function findByTitle(string $title)
-    {
-        return $this->model->where('title', $title)->firstOrFail();
     }
 
     /**
@@ -113,6 +103,17 @@ abstract class GeneralRepository implements GeneralRepositoryInterface
     public function queryBuilder()
     {
         return $this->model;
+    }
+
+
+    /**
+     * @param array $criteria
+     * @param array $inputs
+     * @return void
+     */
+    public function updateOrCreate(array $criteria, array $inputs)
+    {
+        $this->model->updateOrCreate($criteria, $inputs);
     }
 
 }

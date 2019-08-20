@@ -120,7 +120,7 @@ class MainProductRepository extends ProductRepository implements MainProductRepo
     }
 
     /**
-     * @return Builder
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function withRelations()
     {

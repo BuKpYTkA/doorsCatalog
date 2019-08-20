@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Admin\MainProduct;
 
-use App\Entity\MainProduct\MainProduct;
 use App\Repository\BrandRepository\BrandRepositoryInterface;
 use App\Repository\MainProductRepository\MainProductRepositoryInterface;
 use App\Repository\ProductTypeRepository\MainTypeRepository;
@@ -11,6 +10,7 @@ use App\Services\PaginationService\PaginationServiceInterface;
 use App\Services\SortCondition\SortConditionServiceInterface;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Predis\Client;
 
 class MainProducts extends Controller
 {
@@ -72,6 +72,8 @@ class MainProducts extends Controller
      */
     public function __invoke(Request $request)
     {
+        $redis = new Client();
+        $redis->set('key', 2);
         $filteredProducts = $this->filterConditionService->filter($request);
         $filteredProductsBuilder = $filteredProducts['builder'];
         $sorted = $this->sorterConditionService->sort($filteredProductsBuilder, $request, $filteredProducts['appends']);

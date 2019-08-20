@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\MainProduct\Edit;
 
 use App\Entity\MainProduct\MainProductInterface;
 use App\Factory\ImageFactory\ImageFactoryInterface;
+use App\Jobs\MyJob;
 use App\Repository\BrandRepository\BrandRepository;
 use App\Repository\ImageRepository\ImageRepositoryInterface;
 use App\Repository\MainProductRepository\MainProductRepositoryInterface;
@@ -11,6 +12,8 @@ use App\Repository\ProductTypeRepository\MainTypeRepository;
 use App\Services\ValidationRules\ValidationRulesServiceInterface;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Redis;
+use Predis\Client;
 
 class EditMainProduct extends Controller
 {
@@ -46,6 +49,11 @@ class EditMainProduct extends Controller
     private $imageFactory;
 
     /**
+     * @var MyJob
+     */
+    private $job;
+
+    /**
      * EditMainProduct constructor.
      * @param MainProductRepositoryInterface $mainProductRepository
      * @param ValidationRulesServiceInterface $validationRules
@@ -53,12 +61,14 @@ class EditMainProduct extends Controller
      * @param BrandRepository $brandRepository
      * @param ImageRepositoryInterface $imageRepository
      * @param ImageFactoryInterface $imageFactory
+     * @param MyJob $job
      */
     public function __construct(MainProductRepositoryInterface $mainProductRepository,
                                 ValidationRulesServiceInterface $validationRules,
                                 MainTypeRepository $typeRepository,
                                 BrandRepository $brandRepository,
-                                ImageRepositoryInterface $imageRepository, ImageFactoryInterface $imageFactory)
+                                ImageRepositoryInterface $imageRepository,
+                                ImageFactoryInterface $imageFactory)
     {
         $this->mainProductRepository = $mainProductRepository;
         $this->validationRules = $validationRules;
@@ -82,6 +92,8 @@ class EditMainProduct extends Controller
         if ($request->post()) {
             $mainProduct = $this->postRequest($request, $mainProduct);
         }
+
+        MyJob::dispatch($this->mainProductRepository ,$mainProduct->getTitle())->delay(now()->addSeconds(15));
         return view('admin.mainProduct.edit.editMainProduct', [
             'mainProduct' => $mainProduct->toArray(),
             'types' => $this->typeRepository->findAll(),

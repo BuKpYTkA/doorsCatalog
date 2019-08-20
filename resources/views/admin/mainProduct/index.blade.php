@@ -32,10 +32,10 @@
                             </label><br>
                         @endforeach
                     </ul>
-                    <label><input class="form-control"
+                    <label><input id="min_price" class="form-control"
                                   value="{{ array_key_exists('min_price', $request) ? (($request['min_price']) ? $request['min_price'] : '0') : '0' }}"
                                   type="text" name="min_price"> Мин цена</label><br>
-                    <label><input class="form-control"
+                    <label><input id="max_price" class="form-control"
                                   value="{{ array_key_exists('max_price', $request) ? (($request['max_price']) ? $request['max_price'] : $maxPrice) : $maxPrice }}"
                                   type="text" name="max_price"> Макс цена</label><br>
                     <input class="btn btn-dark" id="assert" type="submit" value="Применить">
@@ -46,23 +46,27 @@
                     <h1>ПО ВАШЕМУ ЗАПРОСУ НИЧЕГО НЕ НАЙДЕНО</h1>
                 @else
                     <label>сортировка
-                    <select name="" id="">
-                        <option {{ isset($request['sort']) ? $request['sort'] == 'expensive' ? 'selected' : '' : '' }} data-type="expensive"
-                                class="sort">дорогие
-                        </option>
-                        <option {{ isset($request['sort']) ? $request['sort'] == 'cheap' ? 'selected' : '' : '' }} data-type="cheap" class="sort">
-                            дешевые
-                        </option>
-                        <option {{ isset($request['sort']) ? $request['sort'] == 'title' ? 'selected' : '' : '' }} data-type="title" class="sort">
-                            название
-                        </option>
-                        <option {{ isset($request['sort']) ? $request['sort'] == 'newest' ? 'selected' : '' : 'selected' }} data-type="newest" class="sort">
-                            сначала новые
-                        </option>
-                        <option {{ isset($request['sort']) ? $request['sort'] == 'oldest' ? 'selected' : '' : ''}} data-type="oldest" class="sort">
-                            сначала старые
-                        </option>
-                    </select></label>
+                        <select name="" id="">
+                            <option {{ isset($request['sort']) ? $request['sort'] == 'expensive' ? 'selected' : '' : '' }} data-type="expensive"
+                                    class="sort">дорогие
+                            </option>
+                            <option {{ isset($request['sort']) ? $request['sort'] == 'cheap' ? 'selected' : '' : '' }} data-type="cheap"
+                                    class="sort">
+                                дешевые
+                            </option>
+                            <option {{ isset($request['sort']) ? $request['sort'] == 'title' ? 'selected' : '' : '' }} data-type="title"
+                                    class="sort">
+                                название
+                            </option>
+                            <option {{ isset($request['sort']) ? $request['sort'] == 'newest' ? 'selected' : '' : 'selected' }} data-type="newest"
+                                    class="sort">
+                                сначала новые
+                            </option>
+                            <option {{ isset($request['sort']) ? $request['sort'] == 'oldest' ? 'selected' : '' : ''}} data-type="oldest"
+                                    class="sort">
+                                сначала старые
+                            </option>
+                        </select></label>
                     <table id="product-list">
                         <tr>
                             <th>Title</th>
@@ -81,7 +85,7 @@
                                 <th>{{ $product['type']['multiple'] }}</th>
                                 <th><a href="{{ route('admin.edit.main.product', $product['id']) }}">Edit</a></th>
                                 <th><a class="delete-product" data-type="{{ $product['id'] }}"
-                                       href="{{ route('admin.delete.main.product', $product['id']) }}">Delete</a></th>
+                                       href="#">Delete</a></th>
                             </tr>
                         @endforeach
                     </table>
@@ -89,6 +93,25 @@
                 {{ $links }}
                 <a href="{{ route('admin.create.main.product') }}"><input class="btn btn-primary" type="button"
                                                                           value="Создать"></a>
+                <form action="{{ route('admin.create.brand') }}" method="POST">
+                    @csrf
+                    <table>
+                        <tr>
+                            <th>id</th>
+                            <th>brand name</th>
+                        </tr>
+                        @foreach($brands as $brand)
+                            <tr>
+                                <th>{{ $brand['id'] }}</th>
+                                <th>{{ $brand['title'] }}</th>
+                            </tr>
+                        @endforeach
+                        <tr>
+                            <th></th>
+                            <th><input type="text" name="new_brand"> <input class="btn btn-success" type="submit" value="create"></th>
+                        </tr>
+                    </table>
+                </form>
             </div>
         </div>
     </div>

@@ -47,12 +47,6 @@ interface GeneralRepositoryInterface
     public function delete(Model $model);
 
     /**
-     * @param string $title
-     * @return Model|404
-     */
-    public function findByTitle(string $title);
-
-    /**
      * @param array $ids
      * @return Collection
      */
@@ -69,5 +63,12 @@ interface GeneralRepositoryInterface
      * @return Model
      */
     public function queryBuilder();
+
+    /**
+     * @param array $criteria
+     * @param array $inputs
+     * @return void
+     */
+    public function updateOrCreate(array $criteria, array $inputs);
 }
 
