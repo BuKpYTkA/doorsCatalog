@@ -18,6 +18,8 @@ Route::get('/', function () {
 
 Route::get(md5('set_pagination_cookie').'/{val}', 'Admin\Cookie\PaginationController')->name('set.pag');
 
+Route::get('/test', 'BaseController');
+
 Route::middleware(['auth'])->group(function () {
     Route::prefix('admin-panel')->group(function () {
         Route::get('', 'Admin\AdminController')->name('admin');

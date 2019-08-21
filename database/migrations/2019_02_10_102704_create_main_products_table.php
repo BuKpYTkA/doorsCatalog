@@ -19,7 +19,7 @@ class CreateMainProductsTable extends Migration
             $table->integer('price')->nullable();
             $table->integer('brand_id')->nullable();
             $table->string('description')->nullable();
-            $table->integer('main_product_type_id')->default(null);
+            $table->integer('type_id')->default(null);
             $table->boolean('is_active')->default(1);
             $table->timestamps();
         });

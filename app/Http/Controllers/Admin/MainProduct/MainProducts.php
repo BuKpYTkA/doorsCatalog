@@ -72,8 +72,8 @@ class MainProducts extends Controller
      */
     public function __invoke(Request $request)
     {
-        $redis = new Client();
-        $redis->set('key', 2);
+//        $redis = new Client();
+//        $redis->set('key', 2);
         $filteredProducts = $this->filterConditionService->filter($request);
         $filteredProductsBuilder = $filteredProducts['builder'];
         $sorted = $this->sorterConditionService->sort($filteredProductsBuilder, $request, $filteredProducts['appends']);
