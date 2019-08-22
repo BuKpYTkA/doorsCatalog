@@ -19,6 +19,7 @@ class ApiController extends Controller
     public function getAllProducts()
     {
         $products = MainProduct::query()->orderBy('created_at', 'desc')->paginate(5);
+        $products->withPath('products');
         return MainProductResource::collection($products);
     }
 
