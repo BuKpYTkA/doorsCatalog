@@ -20,5 +20,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::middleware(['cors'])->group(function () {
     Route::post('/products', 'ApiController@getAllProducts');
     Route::post('/product/delete', 'ApiController@deleteProduct');
-    Route::post('/products/autocomplete', 'ApiController@autocompleteProducts');
+    Route::post('/product/autocomplete', 'ApiController@autocompleteProducts');
 });

@@ -11,6 +11,11 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
+    public static function controller()
+    {
+        return str_replace('App\Http\Controllers\\', '', static::class);
+    }
+
     public function successResult(array $data = [])
     {
         return response()->json($data);

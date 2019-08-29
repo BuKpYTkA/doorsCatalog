@@ -14,6 +14,7 @@ use App\Entity\Image\ImageInterface;
 use App\Entity\Product\Product;
 use App\Entity\ProductTypes\MainProductType;
 use App\Services\RelationsService\MainProductRelations;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -114,7 +115,7 @@ class MainProduct extends Product implements MainProductInterface
      * @param $query
      * @return mixed
      */
-    public function scopeActive($query)
+    public function scopeActive(Builder $query)
     {
         return $query->where('is_active', 1);
     }

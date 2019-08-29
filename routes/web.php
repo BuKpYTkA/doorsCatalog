@@ -12,9 +12,13 @@
 */
 
 
+use App\Http\Controllers\BaseController;
+
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/test', BaseController::controller());
 
 Route::get(md5('set_pagination_cookie').'/{val}', 'Admin\Cookie\PaginationController')->name('set.pag');
 

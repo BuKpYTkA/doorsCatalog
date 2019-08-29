@@ -15,10 +15,11 @@ class Cors
      */
     public function handle($request, Closure $next)
     {
-        $key = env('API_KEY');
-        if ($request->header('x-api-key') === env('API_KEY')) {
-            return $next($request);
-        }
-        abort(404);
+        return $next($request);
+//        $key = env('API_KEY');
+//        if ($request->header('x-api-key') === env('API_KEY')) {
+//            return $next($request);
+//        }
+//        abort(404);
     }
 }

@@ -9,6 +9,7 @@
 namespace App\Entity\MainProduct;
 
 use App\Entity\Product\ProductInterface;
+use Illuminate\Database\Eloquent\Builder;
 
 interface MainProductInterface extends ProductInterface
 {
@@ -54,6 +55,6 @@ interface MainProductInterface extends ProductInterface
      * @param $query
      * @return mixed
      */
-    public function scopeActive($query);
+    public function scopeActive(Builder $query);
 
 }
